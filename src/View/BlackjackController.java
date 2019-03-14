@@ -2,7 +2,10 @@ package View;
 
 
 import javax.swing.*;
+
+import java.awt.Dimension;
 import java.awt.event.*;
+import java.awt.*;
 
 public class BlackjackController {
 	
@@ -16,7 +19,7 @@ public class BlackjackController {
 		
 		this.blackjackView.StartGameBtnListener(new ListenerForStartGameBtn());
 		this.blackjackView.HitBtnListener(new ListenerForHitBtn());
-		this.blackjackView.HitBtnListener(new ListenerForStandBtn());
+		this.blackjackView.StandBtnListener(new ListenerForStandBtn());
 	}
 	
 	class ListenerForStartGameBtn implements ActionListener{
@@ -33,12 +36,10 @@ public class BlackjackController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JLabel playerTbl = blackjackView.getPlayerTable();
+		
 			DrawedCard draw = new DrawedCard();
 			
-			JLabel card = new JLabel();
-			card.setIcon(new ImageIcon(getClass().getResource(draw.getDrawedCard())));
-			playerTbl.add(card);
+			blackjackView.setPlayerTable(draw.getDrawedCard());
 			
 		}
 	}
