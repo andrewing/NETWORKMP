@@ -30,6 +30,5 @@ public class UDPClient {
 		System.out.println("FROM SERVER: " + modifiedSentence);
 		clientSocket.close();
 		
-		
 	}
 }

@@ -4,11 +4,11 @@ import java.util.*;
 
 public class Player {
 	private String name;
-	private ArrayList<Card> cardsOnHand;
+	private int points;
+	private List<Card> hand;
 	
-	public Player(String name, ArrayList<Card> hand) {
+	public Player(String name) {
 		this.name = name;
-		this.cardsOnHand = hand;
 	}
 
 	public String getName() {
@@ -19,23 +19,51 @@ public class Player {
 		this.name = name;
 	}
 
-	public ArrayList<Card> getCardsOnHand() {
-		return cardsOnHand;
+	public List<Card> getHand() {
+		return hand;
 	}
 
-	public void setCardsOnHand(ArrayList<Card> cardsOnHand) {
-		this.cardsOnHand = cardsOnHand;
+	public void setHand(List<Card> cardsOnHand) {
+		this.hand = cardsOnHand;
 	}
 	
+	public int getHandCount() {
+		return hand.size();
+	}
+	
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
+	}
+	
+	public void hit(Card card) {
+		hand.add(card);
+	}
+
+	
 	public int totalValue() {
-		int s;
 		int sum = 0;
-		
-		for(int i=0; i<cardsOnHand.size(); i++) {
-			s = Integer.parseInt(cardsOnHand.get(i).getSuit());
-			sum = sum+s;	
+		int aces = 0;
+		for(int i=0; i<hand.size(); i++) {
+			String face = hand.get(i).getFace();
+			if(face == "A") {
+				aces++;
+			}
+			sum += Integer.parseInt(face);
+		}				
+		while(aces > 0) {
+			if(sum + 11 <= 21) {
+				sum += 11;
+			}else {
+				sum += 1;
+			}
+			aces--;
 		}
-		
 		return sum;
 	}
+	
+	
 }
