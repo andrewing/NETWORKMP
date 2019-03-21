@@ -1,10 +1,10 @@
-package View;
+package view;
 
 import java.util.*;
 
 public class DrawedCard {
-	private String[] face = {"2", "3","4","5","6","7","8","9","10","J","Q","K","A"};
-	private String[] suits = {"D", "H","S","C"};
+	private String[] face = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+	private String[] suits = {"D","H","S","C"};
 	
 	public String faceRandomizer() {
 		
