@@ -38,9 +38,7 @@ public class BlackjackController {
 		public void actionPerformed(ActionEvent e) {
 		
 			DrawedCard draw = new DrawedCard();
-			
 			blackjackView.setPlayerTable(draw.getDrawedCard());
-			
 		}
 	}
 		
