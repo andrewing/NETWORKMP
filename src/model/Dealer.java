@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Dealer extends Player {
 	private Deck deck;
+
+	private String noki;
 	
 	public Dealer() {
 		super("DEALER");
