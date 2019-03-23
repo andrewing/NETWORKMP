@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 public class BlackjackGUI extends JFrame {
 	
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
-	
 	private ImageIcon lowerIcon = new ImageIcon(getClass().getResource("/low.png"));
 	private JPanel contentPane;
 	public CardLayout cl;
@@ -29,6 +28,9 @@ public class BlackjackGUI extends JFrame {
 	private JLabel lblPlayerBet;
 	private JLabel lblOpponent2Bet;
 	private JLabel lblOpponent1Bet;
+	private JButton opponent1Profile;
+	private JButton opponent2Profile;
+	private JButton playerProfile;
 	
 	public BlackjackGUI() {
 		
@@ -106,19 +108,19 @@ public class BlackjackGUI extends JFrame {
 		opponent1Table.setForeground(Color.WHITE);
 		opponent1Table.setBorder(BorderFactory.createRaisedBevelBorder());
 		opponent1Table.setBackground(new Color(46, 139, 87));
-		opponent1Table.setBounds(37, 155, 288, 74);
+		opponent1Table.setBounds(89, 155, 236, 74);
 		opponent1Table.setLayout(new FlowLayout(FlowLayout.CENTER));
 		inGamePanel.add(opponent1Table);
 		
 		opponent2Table = new JPanel();
 		opponent2Table.setBackground(new Color(46, 139, 87));
 		opponent2Table.setBorder(BorderFactory.createRaisedBevelBorder());
-		opponent2Table.setBounds(476, 155, 288, 74);
+		opponent2Table.setBounds(520, 155, 236, 74);
 		opponent2Table.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		inGamePanel.add(opponent2Table);
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(256, 240, 288, 74);
+		scrollPane.setBounds(308, 240, 236, 74);
 		scrollPane.setBackground(new Color(46, 139, 87));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -216,6 +218,21 @@ public class BlackjackGUI extends JFrame {
 		lblOpponent2Bet.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblOpponent2Bet.setBounds(659, 229, 54, 14);
 		inGamePanel.add(lblOpponent2Bet);
+		
+	//players profile	
+		opponent1Profile = new JButton();
+		opponent1Profile.setBounds(26, 160, 64, 64);
+		inGamePanel.add(opponent1Profile);
+		
+		opponent2Profile = new JButton();
+		opponent2Profile.setBounds(457, 160, 64, 64);
+		inGamePanel.add(opponent2Profile);
+		
+		playerProfile = new JButton();
+		playerProfile.setOpaque(false);
+		playerProfile.setBackground(new Color(46, 139, 87));
+		playerProfile.setBounds(245, 245, 64, 64);
+		inGamePanel.add(playerProfile);
 		
 	}
 	
