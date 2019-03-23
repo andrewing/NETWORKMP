@@ -9,29 +9,22 @@ import java.awt.event.ActionListener;
 
 public class BlackjackGUI extends JFrame {
 	
-	private ImageIcon babyProfile = new ImageIcon(getClass().getResource("/greed.png"));
+	private ImageIcon profile = new ImageIcon(getClass().getResource("/greed.png"));
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
 	private ImageIcon lowerIcon = new ImageIcon(getClass().getResource("/low.png"));
 	private JPanel contentPane;
 	public CardLayout cl;
-	public JPanel mainPanel;
-	public JPanel startGamePanel, inGamePanel;
+	public JPanel mainPanel ,startGamePanel, inGamePanel;
 	public JButton btnStartGame;
-
-	private JPanel opponent1Table, opponent2Table, dealerTable;
-	private JPanel playerTable;
+	private JPanel playerTable, opponent1Table, opponent2Table, dealerTable;
 	private JButton hitBtn,standBtn,addBetBtn,lowerBetBtn;
 	private JTextField nameTxtField;
 	private JScrollPane scrollPane;
 	private JFormattedTextField betTxtField;
 	private JLabel lblPlayerPoints;
 	private JButton betBtn;
-	private JLabel lblPlayerBet;
-	private JLabel lblOpponent2Bet;
-	private JLabel lblOpponent1Bet;
-	private JButton opponent1Profile;
-	private JButton opponent2Profile;
-	private JButton playerProfile;
+	private JLabel lblPlayerBet, lblOpponent1Bet, lblOpponent2Bet;
+	private JButton playerAvatar, opponent1Avatar, opponent2Avatar;
 	
 	public BlackjackGUI() {
 		
@@ -221,21 +214,21 @@ public class BlackjackGUI extends JFrame {
 		inGamePanel.add(lblOpponent2Bet);
 		
 	//players profile	
-		opponent1Profile = new JButton();
-		opponent1Profile.setBounds(26, 160, 64, 64);
-		inGamePanel.add(opponent1Profile);
+		opponent1Avatar = new JButton();
+		opponent1Avatar.setBounds(26, 160, 64, 64);
+		inGamePanel.add(opponent1Avatar);
 		
-		opponent2Profile = new JButton();
-		opponent2Profile.setBounds(457, 160, 64, 64);
-		inGamePanel.add(opponent2Profile);
+		opponent2Avatar = new JButton();
+		opponent2Avatar.setBounds(457, 160, 64, 64);
+		inGamePanel.add(opponent2Avatar);
 		
-		playerProfile = new JButton();
-		playerProfile.setIcon(babyProfile);
-		playerProfile.setBorder(null);
-		playerProfile.setOpaque(true);
-		playerProfile.setBackground(new Color(46, 139, 87));
-		playerProfile.setBounds(245, 245, 64, 64);
-		inGamePanel.add(playerProfile);
+		playerAvatar = new JButton();
+		playerAvatar.setIcon(profile);
+		playerAvatar.setBorder(null);
+		playerAvatar.setOpaque(true);
+		playerAvatar.setBackground(new Color(46, 139, 87));
+		playerAvatar.setBounds(245, 245, 64, 64);
+		inGamePanel.add(playerAvatar);
 		
 	}
 	

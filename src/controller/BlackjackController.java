@@ -2,10 +2,7 @@ package controller;
 
 
 import javax.swing.*;
-
-import view.BlackjackGUI;
-import view.DrawedCard;
-
+import view.*;
 import java.awt.Dimension;
 import java.awt.event.*;
 import java.awt.*;
@@ -13,6 +10,8 @@ import java.awt.*;
 public class BlackjackController {
 	
 	private BlackjackGUI blackjackView;
+	private PlayerProfile profile;
+	private Avatars avatars;
 	
 	
 	public BlackjackController(BlackjackGUI gameView) {
@@ -86,6 +85,5 @@ public class BlackjackController {
 		public void actionPerformed(ActionEvent e) {
 			
 		}
-		
 	}
 }
