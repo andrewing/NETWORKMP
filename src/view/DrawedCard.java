@@ -25,4 +25,8 @@ public class DrawedCard {
 		
 	}
 	
+	public String toString(){
+		return this.faceRandomizer() + this.suitsRandomizer();
+	}
+	
 }

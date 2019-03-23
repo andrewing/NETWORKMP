@@ -2,37 +2,31 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.border.*;
-import java.awt.CardLayout;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.Font;
+import javax.swing.text.NumberFormatter;
+
 import java.awt.event.ActionListener;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import java.awt.FlowLayout;
-import java.awt.Color;
-import javax.swing.JTextField;
+import java.text.NumberFormat;
+
 
 public class BlackjackGUI extends JFrame {
 
+	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
+	private ImageIcon lowerIcon = new ImageIcon(getClass().getResource("/low.png"));
 	private JPanel contentPane;
 	public CardLayout cl;
 	public JPanel mainPanel;
 	public JPanel startGamePanel, inGamePanel;
 	public JButton btnStartGame;
 
-	public DrawedCard drawCard;
-	public JLabel opponent1Table, playerTable, opponent2Table, dealerTable ;
-	private JButton hitBtn;
-	private JButton standBtn;
+	private JPanel opponent1Table, opponent2Table, dealerTable;
+	private JPanel playerTable;
+	private JButton hitBtn,standBtn,addBetBtn,lowerBetBtn;
 	private JTextField nameTxtField;
-
-	
+	private JScrollPane scrollPane;
+	private JFormattedTextField betTxtField;
+	private JLabel lblScore;
+	private JLabel lblPoints;
 	
 	public BlackjackGUI() {
 		
@@ -97,50 +91,93 @@ public class BlackjackGUI extends JFrame {
 		nameTxtField.setColumns(10);
 		
 		//dealer table
-		dealerTable = new JLabel("");
+		dealerTable = new JPanel();
 		dealerTable.setBorder(BorderFactory.createRaisedBevelBorder());
-		dealerTable.setBackground(new Color(0, 128, 0));
+		dealerTable.setBackground(new Color(46, 139, 87));
 		dealerTable.setBounds(256, 70, 288, 74);
-		dealerTable.setLayout((new FlowLayout(FlowLayout.CENTER, 5, 5)));
+		dealerTable.setLayout((new FlowLayout(FlowLayout.CENTER)));
 		inGamePanel.add(dealerTable);
 		
 		//player tables
-		opponent1Table = new JLabel();
+		opponent1Table = new JPanel();
 		opponent1Table.setForeground(Color.WHITE);
 		opponent1Table.setBorder(BorderFactory.createRaisedBevelBorder());
-		opponent1Table.setBackground(new Color(0, 128, 0));
+		opponent1Table.setBackground(new Color(46, 139, 87));
 		opponent1Table.setBounds(37, 155, 288, 74);
-		opponent1Table.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		opponent1Table.setLayout(new FlowLayout(FlowLayout.CENTER));
 		inGamePanel.add(opponent1Table);
 		
-		
-		playerTable = new JLabel("");
-		playerTable.setLayout((new FlowLayout(FlowLayout.CENTER, 5, 5)));
-		playerTable.setBackground(new Color(0, 128, 0));
-		playerTable.setBorder(BorderFactory.createRaisedBevelBorder());
-		playerTable.setBounds(256, 254, 288, 74);
-		inGamePanel.add(playerTable);
-		
-		opponent2Table = new JLabel("");
-		opponent2Table.setBackground(new Color(0, 128, 0));
+		opponent2Table = new JPanel();
+		opponent2Table.setBackground(new Color(46, 139, 87));
 		opponent2Table.setBorder(BorderFactory.createRaisedBevelBorder());
 		opponent2Table.setBounds(476, 155, 288, 74);
 		opponent2Table.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		inGamePanel.add(opponent2Table);
-		
+
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(256, 240, 288, 74);
+		scrollPane.setBackground(new Color(46, 139, 87));
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		inGamePanel.add(scrollPane);
+		playerTable = new JPanel();
+		playerTable.setLayout(new BoxLayout(playerTable, BoxLayout.X_AXIS));
+		playerTable.add(Box.createRigidArea(new Dimension(5,0)));
+		playerTable.setBackground(new Color(46, 139, 87));
+		playerTable.setBorder(BorderFactory.createRaisedBevelBorder());
+		scrollPane.setViewportView(playerTable);
 		
 		//player button
 		hitBtn = new JButton("Hit");
 		hitBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		hitBtn.setBounds(300, 339, 74, 27);
+		hitBtn.setBounds(256, 325, 68, 27);
 		//hitBtn.setEnabled(false);
 		inGamePanel.add(hitBtn);
 		
 		standBtn = new JButton("Stand");
 		standBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		standBtn.setBounds(412, 339, 74, 27);
-		//standBtn.setEnabled(false);
+		standBtn.setBounds(351, 325, 68, 27);
+		standBtn.setEnabled(false);
 		inGamePanel.add(standBtn);
+
+	
+		betTxtField = new JFormattedTextField("0");
+		betTxtField.setBounds(468, 325, 48, 27);
+		betTxtField.setBackground(new Color(0, 153, 102));
+		betTxtField.setForeground(Color.WHITE);
+		inGamePanel.add(betTxtField);
+		betTxtField.setColumns(10);
+		
+		addBetBtn = new JButton();
+		addBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
+		addBetBtn.setBounds(515, 325, 24, 14);
+		addBetBtn.setIcon(addIcon);
+		inGamePanel.add(addBetBtn);
+		
+		lowerBetBtn = new JButton();
+		lowerBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
+		lowerBetBtn.setBounds(515, 338, 24, 14);
+		lowerBetBtn.setIcon(lowerIcon);
+		inGamePanel.add(lowerBetBtn);
+		
+		JLabel lblBet = new JLabel("Bet : ");
+		lblBet.setForeground(Color.WHITE);
+		lblBet.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblBet.setBounds(435, 331, 33, 14);
+		inGamePanel.add(lblBet);
+		
+		lblScore = new JLabel("Points :");
+		lblScore.setForeground(Color.WHITE);
+		lblScore.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblScore.setBounds(438, 368, 48, 14);
+		inGamePanel.add(lblScore);
+		
+		lblPoints = new JLabel("300");
+		lblPoints.setForeground(Color.WHITE);
+		lblPoints.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblPoints.setBounds(490, 368, 54, 14);
+		inGamePanel.add(lblPoints);
+		
 	}
 	
 	public String getName() {
@@ -151,12 +188,26 @@ public class BlackjackGUI extends JFrame {
 		
 		TitledBorder titleBorder = new TitledBorder(BorderFactory.createLoweredBevelBorder(), getName(), TitledBorder.ABOVE_TOP,
 									TitledBorder.CENTER, new Font("Segoe UI", Font.PLAIN, 13), Color.WHITE);
+		
 		playerTable.setBorder(titleBorder);
 		
 	}
 	
-	public JLabel getPlayerTable(){
-		return this.playerTable;
+	public void setPlayerTable(String drawedCard){
+		
+       		JLabel card = new JLabel();
+       		playerTable.add(card);
+       		playerTable.add(Box.createRigidArea(new Dimension(1,0)));
+			card.setIcon(new ImageIcon(getClass().getResource(drawedCard)));
+			System.out.println(drawedCard);
+	}
+	
+	public String getBetTxtFieldInput() {
+		return betTxtField.getText();
+	}
+	
+	public void setBetTxtField(String bet) {
+		betTxtField.setText(bet);
 	}
 	
 	public void StartGameBtnListener(ActionListener listenerForStartBtn) {
@@ -164,10 +215,18 @@ public class BlackjackGUI extends JFrame {
 	}
 	
 	public void HitBtnListener(ActionListener listenerForHitBtn) {
-		standBtn.addActionListener(listenerForHitBtn);
+		hitBtn.addActionListener(listenerForHitBtn);
 	}
 	
 	public void StandBtnListener(ActionListener listenerForStandBtn) {
 		standBtn.addActionListener(listenerForStandBtn);
+	}
+	
+	public void AddBetBtnListener(ActionListener listenerForAddBetBtn) {
+		addBetBtn.addActionListener(listenerForAddBetBtn);
+	}
+	
+	public void LowerBetBtnListener(ActionListener listenerForLowerBetBtn) {
+		lowerBetBtn.addActionListener(listenerForLowerBetBtn);
 	}
 }
