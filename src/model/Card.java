@@ -8,6 +8,10 @@ public class Card {
 		this.suit = suit;
 		this.face = face;
 	}
+	
+	public Card() {
+		
+	}
 
 	public String getSuit() {
 		return suit;

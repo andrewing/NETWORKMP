@@ -12,12 +12,10 @@ public class Deck {
 	public void initializeStandardDeck() {
 		String[] faces = {"2","3","4","5","6","7","8","9","10","11","12","13","A"};
 		String[] suits = {"D","H","S","C"};
-		for(int i = 0; i < faces.length; i++) {
-			for(int j = 0; j < suits.length; j++) {
-				cards.add(new Card(faces[i], suits[j]));
-			}
-		}
-		shuffleDeck();
+		for(String face: faces)
+			for(String suit: suits)
+				cards.add(new Card(face, suit));
+		//shuffleDeck();
 	}
 	
 	public void shuffleDeck() {
@@ -27,5 +25,7 @@ public class Deck {
 	public Card drawCard() {
 		return ((Stack<Card>)cards).pop();
 	}
+	
+	
 }
 

@@ -1,15 +1,10 @@
 package model;
 
-import java.util.List;
-
-
 public class Dealer extends Player {
 	private Deck deck;
-
-	private String noki;
 	
 	public Dealer() {
-		super("DEALER");
+		super("DEALER", "");
 		deck = new Deck();
 		deck.initializeStandardDeck();
 	}
@@ -17,5 +12,17 @@ public class Dealer extends Player {
 	public Card deal() {
 		return deck.drawCard();
 	}
+	
+	public void reset() {
+		super.reset();
+		deck.initializeStandardDeck();
+	}
 
+	public static void main(String[] args) {
+		Dealer dealer = new Dealer();
+		System.out.println(dealer.deal().getFace());
+		dealer.reset();
+		System.out.println(dealer.deal().getFace());
+	
+	}
 }
