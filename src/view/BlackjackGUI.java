@@ -3,12 +3,16 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
+import javax.swing.text.NumberFormatter;
+
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 
 
 public class BlackjackGUI extends JFrame {
 
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
+	private ImageIcon lowerIcon = new ImageIcon(getClass().getResource("/low.png"));
 	private JPanel contentPane;
 	public CardLayout cl;
 	public JPanel mainPanel;
@@ -17,10 +21,12 @@ public class BlackjackGUI extends JFrame {
 
 	private JPanel opponent1Table, opponent2Table, dealerTable;
 	private JPanel playerTable;
-	private JButton hitBtn,standBtn,addBetBtn;
+	private JButton hitBtn,standBtn,addBetBtn,lowerBetBtn;
 	private JTextField nameTxtField;
 	private JScrollPane scrollPane;
 	private JFormattedTextField betTxtField;
+	private JLabel lblScore;
+	private JLabel lblPoints;
 	
 	public BlackjackGUI() {
 		
@@ -124,28 +130,53 @@ public class BlackjackGUI extends JFrame {
 		//player button
 		hitBtn = new JButton("Hit");
 		hitBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		hitBtn.setBounds(256, 325, 74, 27);
+		hitBtn.setBounds(256, 325, 68, 27);
 		//hitBtn.setEnabled(false);
 		inGamePanel.add(hitBtn);
 		
 		standBtn = new JButton("Stand");
 		standBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		standBtn.setBounds(366, 325, 74, 27);
+		standBtn.setBounds(351, 325, 68, 27);
 		standBtn.setEnabled(false);
 		inGamePanel.add(standBtn);
-		
-		betTxtField = new JFormattedTextField();
-		betTxtField.setBounds(464, 325, 57, 27);
+
+	
+		betTxtField = new JFormattedTextField("0");
+		betTxtField.setBounds(468, 325, 48, 27);
 		betTxtField.setBackground(new Color(0, 153, 102));
 		betTxtField.setForeground(Color.WHITE);
 		inGamePanel.add(betTxtField);
 		betTxtField.setColumns(10);
 		
-		addBetBtn = new JButton("");
+		addBetBtn = new JButton();
 		addBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
-		addBetBtn.setBounds(520, 325, 24, 27);
+		addBetBtn.setBounds(515, 325, 24, 14);
 		addBetBtn.setIcon(addIcon);
 		inGamePanel.add(addBetBtn);
+		
+		lowerBetBtn = new JButton();
+		lowerBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
+		lowerBetBtn.setBounds(515, 338, 24, 14);
+		lowerBetBtn.setIcon(lowerIcon);
+		inGamePanel.add(lowerBetBtn);
+		
+		JLabel lblBet = new JLabel("Bet : ");
+		lblBet.setForeground(Color.WHITE);
+		lblBet.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblBet.setBounds(435, 331, 33, 14);
+		inGamePanel.add(lblBet);
+		
+		lblScore = new JLabel("Points :");
+		lblScore.setForeground(Color.WHITE);
+		lblScore.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblScore.setBounds(438, 368, 48, 14);
+		inGamePanel.add(lblScore);
+		
+		lblPoints = new JLabel("300");
+		lblPoints.setForeground(Color.WHITE);
+		lblPoints.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblPoints.setBounds(490, 368, 54, 14);
+		inGamePanel.add(lblPoints);
 		
 	}
 	
@@ -171,8 +202,8 @@ public class BlackjackGUI extends JFrame {
 			System.out.println(drawedCard);
 	}
 	
-	public void getBetTxtFieldInput() {
-		betTxtField.getText();
+	public String getBetTxtFieldInput() {
+		return betTxtField.getText();
 	}
 	
 	public void setBetTxtField(String bet) {
@@ -193,5 +224,9 @@ public class BlackjackGUI extends JFrame {
 	
 	public void AddBetBtnListener(ActionListener listenerForAddBetBtn) {
 		addBetBtn.addActionListener(listenerForAddBetBtn);
+	}
+	
+	public void LowerBetBtnListener(ActionListener listenerForLowerBetBtn) {
+		lowerBetBtn.addActionListener(listenerForLowerBetBtn);
 	}
 }

@@ -23,6 +23,8 @@ public class BlackjackController {
 		this.blackjackView.StartGameBtnListener(new ListenerForStartGameBtn());
 		this.blackjackView.HitBtnListener(new ListenerForHitBtn());
 		this.blackjackView.StandBtnListener(new ListenerForStandBtn());
+		this.blackjackView.AddBetBtnListener(new ListenerForAddBetBtn());
+		this.blackjackView.LowerBetBtnListener(new ListenerForLowerBetBtn());
 	}
 	
 	class ListenerForStartGameBtn implements ActionListener{
@@ -48,6 +50,34 @@ public class BlackjackController {
 	class ListenerForStandBtn implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			
+		}
+		
+	}
+	
+	class ListenerForAddBetBtn implements ActionListener{
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int val = Integer.parseInt(blackjackView.getBetTxtFieldInput());
+			val = val + 10;
+			blackjackView.setBetTxtField(val+ "");
+		}
+		
+	}
+	
+	class ListenerForLowerBetBtn implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int val = Integer.parseInt(blackjackView.getBetTxtFieldInput());
+
+			val = val - 10;
+			if(val >= 0) {
+				blackjackView.setBetTxtField(val+ "");
+			}
+			
+			
 			
 		}
 		
