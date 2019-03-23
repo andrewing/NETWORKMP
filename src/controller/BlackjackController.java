@@ -25,6 +25,7 @@ public class BlackjackController {
 		this.blackjackView.StandBtnListener(new ListenerForStandBtn());
 		this.blackjackView.AddBetBtnListener(new ListenerForAddBetBtn());
 		this.blackjackView.LowerBetBtnListener(new ListenerForLowerBetBtn());
+		this.blackjackView.BetBtnListener(new ListenerForBetBtn());
 	}
 	
 	class ListenerForStartGameBtn implements ActionListener{
@@ -76,8 +77,13 @@ public class BlackjackController {
 			if(val >= 0) {
 				blackjackView.setBetTxtField(val+ "");
 			}
-			
-			
+		}
+	}
+	
+	class ListenerForBetBtn implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
 			
 		}
 		
