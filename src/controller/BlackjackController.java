@@ -1,7 +1,10 @@
-package view;
+package controller;
 
 
 import javax.swing.*;
+
+import view.BlackjackGUI;
+import view.DrawedCard;
 
 import java.awt.Dimension;
 import java.awt.event.*;

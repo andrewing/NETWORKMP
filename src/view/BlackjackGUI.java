@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 public class BlackjackGUI extends JFrame {
 
+	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
 	private JPanel contentPane;
 	public CardLayout cl;
 	public JPanel mainPanel;
@@ -16,14 +17,12 @@ public class BlackjackGUI extends JFrame {
 
 	private JPanel opponent1Table, opponent2Table, dealerTable;
 	private JPanel playerTable;
-	private JButton hitBtn;
-	private JButton standBtn;
+	private JButton hitBtn,standBtn,addBetBtn;
 	private JTextField nameTxtField;
 	private JScrollPane scrollPane;
-
+	private JFormattedTextField betTxtField;
+	
 	public BlackjackGUI() {
-		
-		
 		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -125,15 +124,28 @@ public class BlackjackGUI extends JFrame {
 		//player button
 		hitBtn = new JButton("Hit");
 		hitBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		hitBtn.setBounds(298, 325, 74, 27);
+		hitBtn.setBounds(256, 325, 74, 27);
 		//hitBtn.setEnabled(false);
 		inGamePanel.add(hitBtn);
 		
 		standBtn = new JButton("Stand");
 		standBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		standBtn.setBounds(412, 325, 74, 27);
+		standBtn.setBounds(366, 325, 74, 27);
 		standBtn.setEnabled(false);
 		inGamePanel.add(standBtn);
+		
+		betTxtField = new JFormattedTextField();
+		betTxtField.setBounds(464, 325, 57, 27);
+		betTxtField.setBackground(new Color(0, 153, 102));
+		betTxtField.setForeground(Color.WHITE);
+		inGamePanel.add(betTxtField);
+		betTxtField.setColumns(10);
+		
+		addBetBtn = new JButton("");
+		addBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
+		addBetBtn.setBounds(520, 325, 24, 27);
+		addBetBtn.setIcon(addIcon);
+		inGamePanel.add(addBetBtn);
 		
 	}
 	
@@ -159,6 +171,14 @@ public class BlackjackGUI extends JFrame {
 			System.out.println(drawedCard);
 	}
 	
+	public void getBetTxtFieldInput() {
+		betTxtField.getText();
+	}
+	
+	public void setBetTxtField(String bet) {
+		betTxtField.setText(bet);
+	}
+	
 	public void StartGameBtnListener(ActionListener listenerForStartBtn) {
 		btnStartGame.addActionListener(listenerForStartBtn);
 	}
@@ -169,5 +189,9 @@ public class BlackjackGUI extends JFrame {
 	
 	public void StandBtnListener(ActionListener listenerForStandBtn) {
 		standBtn.addActionListener(listenerForStandBtn);
+	}
+	
+	public void AddBetBtnListener(ActionListener listenerForAddBetBtn) {
+		addBetBtn.addActionListener(listenerForAddBetBtn);
 	}
 }
