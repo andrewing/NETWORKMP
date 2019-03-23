@@ -24,8 +24,11 @@ public class BlackjackGUI extends JFrame {
 	private JTextField nameTxtField;
 	private JScrollPane scrollPane;
 	private JFormattedTextField betTxtField;
-	private JLabel lblScore;
-	private JLabel lblPoints;
+	private JLabel lblPlayerPoints;
+	private JButton betBtn;
+	private JLabel lblPlayerBet;
+	private JLabel lblOpponent2Bet;
+	private JLabel lblOpponent1Bet;
 	
 	public BlackjackGUI() {
 		
@@ -62,6 +65,7 @@ public class BlackjackGUI extends JFrame {
 		btnStartGame.setFont(new Font("Segoe UI Historic", Font.BOLD, 13));
 		btnStartGame.setBounds(310, 225, 123, 23);
 		startGamePanel.add(btnStartGame);
+		
 		
 		JLabel lblBlackjack = new JLabel("BLACKJACK");
 		lblBlackjack.setHorizontalAlignment(SwingConstants.CENTER);
@@ -135,13 +139,12 @@ public class BlackjackGUI extends JFrame {
 		
 		standBtn = new JButton("Stand");
 		standBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		standBtn.setBounds(351, 325, 68, 27);
+		standBtn.setBounds(334, 325, 68, 27);
 		standBtn.setEnabled(false);
 		inGamePanel.add(standBtn);
-
 	
 		betTxtField = new JFormattedTextField("0");
-		betTxtField.setBounds(468, 325, 48, 27);
+		betTxtField.setBounds(476, 325, 45, 27);
 		betTxtField.setBackground(new Color(0, 153, 102));
 		betTxtField.setForeground(Color.WHITE);
 		inGamePanel.add(betTxtField);
@@ -149,33 +152,70 @@ public class BlackjackGUI extends JFrame {
 		
 		addBetBtn = new JButton();
 		addBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
-		addBetBtn.setBounds(515, 325, 24, 14);
+		addBetBtn.setBounds(520, 325, 24, 14);
 		addBetBtn.setIcon(addIcon);
 		inGamePanel.add(addBetBtn);
 		
 		lowerBetBtn = new JButton();
 		lowerBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
-		lowerBetBtn.setBounds(515, 338, 24, 14);
+		lowerBetBtn.setBounds(520, 336, 24, 14);
 		lowerBetBtn.setIcon(lowerIcon);
 		inGamePanel.add(lowerBetBtn);
 		
-		JLabel lblBet = new JLabel("Bet : ");
-		lblBet.setForeground(Color.WHITE);
-		lblBet.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		lblBet.setBounds(435, 331, 33, 14);
-		inGamePanel.add(lblBet);
+		betBtn = new JButton("Bet");
+		betBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		betBtn.setBounds(411, 325, 63, 27);
+		inGamePanel.add(betBtn);
 		
-		lblScore = new JLabel("Points :");
-		lblScore.setForeground(Color.WHITE);
-		lblScore.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		lblScore.setBounds(438, 368, 48, 14);
-		inGamePanel.add(lblScore);
-		
-		lblPoints = new JLabel("300");
+		//labels
+		JLabel lblPoints = new JLabel("Points :");
 		lblPoints.setForeground(Color.WHITE);
 		lblPoints.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		lblPoints.setBounds(490, 368, 54, 14);
+		lblPoints.setBounds(281, 368, 48, 14);
 		inGamePanel.add(lblPoints);
+		
+		JLabel lblBetAmt = new JLabel("Bet Amount :");
+		lblBetAmt.setForeground(Color.WHITE);
+		lblBetAmt.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblBetAmt.setBounds(398, 368, 85, 14);
+		inGamePanel.add(lblBetAmt);
+		
+		JLabel label = new JLabel("Bet Amount :");
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		label.setBounds(564, 229, 85, 14);
+		inGamePanel.add(label);
+		
+		JLabel label_3 = new JLabel("Bet Amount :");
+		label_3.setForeground(Color.WHITE);
+		label_3.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		label_3.setBounds(97, 229, 85, 14);
+		inGamePanel.add(label_3);
+		
+		//labels to be modified
+		lblPlayerPoints = new JLabel("300");
+		lblPlayerPoints.setForeground(Color.WHITE);
+		lblPlayerPoints.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblPlayerPoints.setBounds(334, 368, 54, 14);
+		inGamePanel.add(lblPlayerPoints);
+		
+		lblPlayerBet = new JLabel("300");
+		lblPlayerBet.setForeground(Color.WHITE);
+		lblPlayerBet.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblPlayerBet.setBounds(486, 369, 54, 14);
+		inGamePanel.add(lblPlayerBet);
+		
+		lblOpponent1Bet = new JLabel("300");
+		lblOpponent1Bet.setForeground(Color.WHITE);
+		lblOpponent1Bet.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblOpponent1Bet.setBounds(192, 230, 54, 14);
+		inGamePanel.add(lblOpponent1Bet);
+		
+		lblOpponent2Bet = new JLabel("300");
+		lblOpponent2Bet.setForeground(Color.WHITE);
+		lblOpponent2Bet.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblOpponent2Bet.setBounds(659, 229, 54, 14);
+		inGamePanel.add(lblOpponent2Bet);
 		
 	}
 	
@@ -193,7 +233,6 @@ public class BlackjackGUI extends JFrame {
 	}
 	
 	public void setPlayerTable(String drawedCard){
-		
        		JLabel card = new JLabel();
        		playerTable.add(card);
        		playerTable.add(Box.createRigidArea(new Dimension(1,0)));
@@ -201,6 +240,7 @@ public class BlackjackGUI extends JFrame {
 			System.out.println(drawedCard);
 	}
 	
+//getters and setters for text fields	
 	public String getBetTxtFieldInput() {
 		return betTxtField.getText();
 	}
@@ -208,7 +248,36 @@ public class BlackjackGUI extends JFrame {
 	public void setBetTxtField(String bet) {
 		betTxtField.setText(bet);
 	}
+
+//getters and setters for labels
 	
+	//opponent bets
+	public String getOpponent1Bet() {
+		return lblOpponent1Bet.getText();
+	}
+	
+	public String getOpponent2Bet() {
+		return lblOpponent2Bet.getText();
+	}
+
+	//player points and bet	
+	public String getPlayerBet() {
+		return this.lblPlayerBet.getText();
+	}
+	
+	public void setPlayerBet(String bet) {
+		lblPlayerBet.setText(bet);
+	}
+	
+	public String getPlayerPoints() {
+		return lblPlayerPoints.getText();
+	}
+	
+	public void setPlayerPoints(String points) {
+		lblPlayerPoints.setText(points);
+	}
+	
+//button listeners	
 	public void StartGameBtnListener(ActionListener listenerForStartBtn) {
 		btnStartGame.addActionListener(listenerForStartBtn);
 	}
@@ -219,6 +288,10 @@ public class BlackjackGUI extends JFrame {
 	
 	public void StandBtnListener(ActionListener listenerForStandBtn) {
 		standBtn.addActionListener(listenerForStandBtn);
+	}
+	
+	public void BetBtnListener(ActionListener listenerForBetBtn) {
+		betBtn.addActionListener(listenerForBetBtn);
 	}
 	
 	public void AddBetBtnListener(ActionListener listenerForAddBetBtn) {
