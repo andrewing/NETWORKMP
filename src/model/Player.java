@@ -4,11 +4,18 @@ import java.util.*;
 
 public class Player {
 	private String name;
+	private String imgPath;
+	private int wins;
+	private int games;
 	private int points;
 	private List<Card> hand;
 	
-	public Player(String name) {
+	public Player(String name, String imgPath) {
+		hand = new ArrayList<>();
 		this.name = name;
+		this.imgPath = imgPath;
+		wins = 0;
+		games = 0;
 	}
 
 	public String getName() {
@@ -39,11 +46,56 @@ public class Player {
 		this.points = points;
 	}
 	
+	public String getImgPath() {
+		return imgPath;
+	}
+	
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
+	}
+
+	public int getWins() {
+		return wins;
+	}
+
+	public void setWins(int wins) {
+		this.wins = wins;
+	}
+
+	public int getGames() {
+		return games;
+	}
+
+	public void setGames(int games) {
+		this.games = games;
+	}
+	
 	public void hit(Card card) {
 		hand.add(card);
 	}
-
 	
+	public void stand() {
+		
+	}
+	
+	public void reset() {
+		hand.removeAll(hand);
+	}
+
+	public int bet(int bet) {
+		games++;
+		if(this.points > 0) {
+			this.points -= bet;
+			return bet;
+		}
+		return 0;
+	}
+	
+	public void win(int winnings) {
+		wins++;
+		this.points += winnings;
+	}
+
 	public int totalValue() {
 		int sum = 0;
 		int aces = 0;
@@ -51,8 +103,9 @@ public class Player {
 			String face = hand.get(i).getFace();
 			if(face == "A") {
 				aces++;
+			}else {
+				sum += Integer.parseInt(face);
 			}
-			sum += Integer.parseInt(face);
 		}				
 		while(aces > 0) {
 			if(sum + 11 <= 21) {
@@ -65,5 +118,19 @@ public class Player {
 		return sum;
 	}
 	
+	/*test*/
+	public static void main(String[] args) {
+		Player a = new Player("a", "");
+		a.hit(new Card("A", "H"));
+		a.hit(new Card("10", "H"));
+		System.out.println(a.totalValue());
+		a.bet(20);
+		System.out.println(a.getPoints());
+		a.win(40);
+		System.out.println(a.getPoints());
+		a.reset();
+		System.out.println(a.getHandCount());
+	}
+
 	
 }
