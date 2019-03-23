@@ -3,15 +3,14 @@ package view;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
-import javax.swing.text.NumberFormatter;
 
 import java.awt.event.ActionListener;
-import java.text.NumberFormat;
 
 
 public class BlackjackGUI extends JFrame {
-
+	
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
+	
 	private ImageIcon lowerIcon = new ImageIcon(getClass().getResource("/low.png"));
 	private JPanel contentPane;
 	public CardLayout cl;

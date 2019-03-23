@@ -4,13 +4,19 @@ import java.net.DatagramPacket;
 
 public class DatagramPacketModifier {
 	private byte flowcontrol = 0;
+	private byte[] data;
 	private static byte packetNumber = 0;
 	
-	public DatagramPacketModifier(byte flowcontrol) {
+	public DatagramPacketModifier(byte flowcontrol, byte[] data) {
 		this.flowcontrol =flowcontrol;
+		this.data = data;
 	}
 	
-	public DatagramPacket asDatagramPacket(byte[] data) {
+	public DatagramPacketModifier(byte[] data) {
+		this.data = data;
+	}
+	
+	public DatagramPacket asDatagramPacket() {
 		flowcontrol = packetNumber;
 		byte[] dataflow = new byte[data.length + 1];
 		
@@ -21,21 +27,46 @@ public class DatagramPacketModifier {
 
 
 		DatagramPacket datagramPacket = new DatagramPacket(dataflow, data.length);
-		byte[] helloworld = datagramPacket.getData();
-		for(byte bb: helloworld) {
-			System.out.println(Byte.toString(bb));
-		}
+
 		packetNumber++;
 		return datagramPacket;
     }
 	
 
     public static DatagramPacketModifier fromDatagramPacket(DatagramPacket datagramPacket) {
-        // Parse the control bytes out of the given DatagramPacket 
-        // and construct a JayPacket
     	byte[] receivedData = datagramPacket.getData();
-    	DatagramPacketModifier dpm = new DatagramPacketModifier(receivedData[0]);
+    	byte flowcontrol = receivedData[0];
+		for(int i = 0; i < receivedData.length; i++) {
+			receivedData[i] = receivedData[i+1];
+		}
     	
-    	return null;
+    	DatagramPacketModifier dpm = new DatagramPacketModifier(flowcontrol, receivedData);
+    	
+    	return dpm;
     }
+    
+    public byte getFlowcontrol() {
+		return flowcontrol;
+	}
+
+	public void setFlowcontrol(byte flowcontrol) {
+		this.flowcontrol = flowcontrol;
+	}
+
+	public byte[] getData() {
+		return data;
+	}
+
+	public void setData(byte[] data) {
+		this.data = data;
+	}
+
+	public static byte getPacketNumber() {
+		return packetNumber;
+	}
+
+	public static void setPacketNumber(byte packetNumber) {
+		DatagramPacketModifier.packetNumber = packetNumber;
+	}
+
 }
