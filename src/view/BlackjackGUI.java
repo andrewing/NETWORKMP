@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 
 public class BlackjackGUI extends JFrame {
 	
+	private ImageIcon babyProfile = new ImageIcon(getClass().getResource("/greed.png"));
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
 	private ImageIcon lowerIcon = new ImageIcon(getClass().getResource("/low.png"));
 	private JPanel contentPane;
@@ -160,7 +161,7 @@ public class BlackjackGUI extends JFrame {
 		
 		lowerBetBtn = new JButton();
 		lowerBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
-		lowerBetBtn.setBounds(520, 336, 24, 14);
+		lowerBetBtn.setBounds(520, 338, 24, 14);
 		lowerBetBtn.setIcon(lowerIcon);
 		inGamePanel.add(lowerBetBtn);
 		
@@ -229,7 +230,9 @@ public class BlackjackGUI extends JFrame {
 		inGamePanel.add(opponent2Profile);
 		
 		playerProfile = new JButton();
-		playerProfile.setOpaque(false);
+		playerProfile.setIcon(babyProfile);
+		playerProfile.setBorder(null);
+		playerProfile.setOpaque(true);
 		playerProfile.setBackground(new Color(46, 139, 87));
 		playerProfile.setBounds(245, 245, 64, 64);
 		inGamePanel.add(playerProfile);
