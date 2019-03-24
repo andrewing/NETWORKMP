@@ -3,32 +3,39 @@ package udpserverclient;
 import java.io.*;
 import java.net.*;
 
+import model.BlackJackGame;
+
 public class UDPClient extends Thread {
 	
 	private DatagramSocket socket;
 	private InetAddress ip;
-	
-	public UDPClient(String ip) {
+	private BlackJackGame bjg;
+	public UDPClient(BlackJackGame bjg, String ip) {
 		try {
 			this.ip = InetAddress.getByName(ip);
+			this.bjg = bjg;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	@Override
 	public void run() {
 		byte[] data = new byte[1024];
-		DatagramPacketModifier dpm = new DatagramPacketModifier(data);
-		DatagramPacket packet = dpm.asDatagramPacket();
+		DatagramPacketModifier dpm;
+		DatagramPacket packet = new DatagramPacket(data, data.length);
 		try {
 			socket.receive(packet);
+			dpm = DatagramPacketModifier.fromDatagramPacket(packet);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		//do something with data (dpm)
 	}
 	
 	public void sendData(byte[] data) {
-		DatagramPacket packet = new DatagramPacket(data, data.length, ip, 9876);
+		DatagramPacketModifier dpm = new DatagramPacketModifier(data);
+		DatagramPacket packet = dpm.asDatagramPacket(ip, 9876);
 		try {
 			socket.send(packet);
 		} catch (IOException e) {

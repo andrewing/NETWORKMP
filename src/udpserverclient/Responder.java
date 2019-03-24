@@ -16,8 +16,8 @@ public class Responder implements Runnable {
 	public void run() {
 		try {
 			byte[] data = makeResponse();
-			DatagramPacket response = new DatagramPacket(data, data.length,
-					packet.getAddress(), packet.getPort());
+			DatagramPacketModifier dpm = new DatagramPacketModifier(data);
+			DatagramPacket response = dpm.asDatagramPacket(packet.getAddress(), packet.getPort());
 			socket.send(response);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -25,6 +25,7 @@ public class Responder implements Runnable {
 	}
 
 	private byte[] makeResponse() {
+		DatagramPacketModifier dpm = DatagramPacketModifier.fromDatagramPacket(packet);
 		
 		return null;
 	}
