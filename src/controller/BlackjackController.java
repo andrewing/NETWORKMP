@@ -2,6 +2,8 @@ package controller;
 
 
 import javax.swing.*;
+
+import model.BlackJackGame;
 import view.*;
 import java.awt.Dimension;
 import java.awt.event.*;
@@ -14,6 +16,7 @@ public class BlackjackController {
 	private OpponentProfile oppProfile;
 	private Avatars avatars;
 	
+	private BlackJackGame bjg;
 	
 	public BlackjackController(BlackjackGUI gameView) {
 		

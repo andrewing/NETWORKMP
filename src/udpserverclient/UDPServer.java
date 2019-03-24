@@ -24,7 +24,7 @@ public class UDPServer extends Thread {
 
 	public void run() {
 		while (true) {
-			byte[] data = new byte[1024];
+			byte[] data = new byte[4096];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 
 			try {
@@ -32,7 +32,7 @@ public class UDPServer extends Thread {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			new Thread(new Responder(socket, packet)).start();
+			new Thread(new Responder(socket, packet, this.bjg)).start();
 		}
 	}
 	

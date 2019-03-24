@@ -5,10 +5,9 @@ import java.util.*;
 import udpserverclient.UDPClient;
 import udpserverclient.UDPServer;
 
-public class BlackJackGame implements Runnable{
+public class BlackJackGame{
 	private Dealer dealer;
 	private List<Player> players;
-	
 	private UDPClient udpClient;
 	private UDPServer udpServer;
 	
@@ -19,25 +18,23 @@ public class BlackJackGame implements Runnable{
 		this.isServer = isServer;
 	}
 
-	public Dealer getDealer() {
+	public synchronized Dealer getDealer() {
 		return dealer;
 	}
 
-	public void setDealer(Dealer dealer) {
+	public synchronized void setDealer(Dealer dealer) {
 		this.dealer = dealer;
 	}
 
-	public List<Player> getPlayers() {
+	public synchronized List<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(List<Player> players) {
+	public synchronized void setPlayers(List<Player> players) {
 		this.players = players;
 	}
 
-	@Override
-	public void run() {
-		new Thread(this).start();
+	public void start() {
 		if(isServer) {
 			udpServer = new UDPServer(this);
 			udpServer.start();
@@ -45,6 +42,12 @@ public class BlackJackGame implements Runnable{
 			udpClient = new UDPClient(this, "localhost");
 			udpClient.start();
 		}
+	}
+	
+	public void end() {
+		
+		udpClient.sendData("end".getBytes());
+		
 	}
 	
 	

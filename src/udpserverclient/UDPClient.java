@@ -10,6 +10,7 @@ public class UDPClient extends Thread {
 	private DatagramSocket socket;
 	private InetAddress ip;
 	private BlackJackGame bjg;
+	private byte[] bytesFromServer;
 	public UDPClient(BlackJackGame bjg, String ip) {
 		try {
 			this.ip = InetAddress.getByName(ip);
@@ -21,7 +22,7 @@ public class UDPClient extends Thread {
 	
 	@Override
 	public void run() {
-		byte[] data = new byte[1024];
+		byte[] data = new byte[4096];
 		DatagramPacketModifier dpm;
 		DatagramPacket packet = new DatagramPacket(data, data.length);
 		try {
@@ -30,7 +31,7 @@ public class UDPClient extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//do something with data (dpm)
+		bytesFromServer = packet.getData();
 	}
 	
 	public void sendData(byte[] data) {
@@ -43,6 +44,14 @@ public class UDPClient extends Thread {
 		}
 	}
 	
+	public byte[] getBytesFromServer() {
+		return bytesFromServer;
+	}
+
+	public void setBytesFromServer(byte[] bytesFromServer) {
+		this.bytesFromServer = bytesFromServer;
+	}
+
 	
 	public static void main(String args[]) throws IOException {
 		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
