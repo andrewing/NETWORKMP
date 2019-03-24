@@ -270,7 +270,7 @@ public class BlackjackGUI extends JFrame {
 			card.setIcon(new ImageIcon(getClass().getResource(drawedCard)));
 			System.out.println(drawedCard);
 	}
-	
+//=========================================================================================	
 //getters and setters for text fields	
 	public String getBetTxtFieldInput() {
 		return betTxtField.getText();
@@ -279,7 +279,7 @@ public class BlackjackGUI extends JFrame {
 	public void setBetTxtField(String bet) {
 		betTxtField.setText(bet);
 	}
-
+//=========================================================================================
 //getters and setters for labels
 	
 	//opponent bets
@@ -308,6 +308,7 @@ public class BlackjackGUI extends JFrame {
 		lblPlayerPoints.setText(points);
 	}
 	
+//===============================================================================	
 //button listeners	
 	public void StartGameBtnListener(ActionListener listenerForStartBtn) {
 		btnStartGame.addActionListener(listenerForStartBtn);
