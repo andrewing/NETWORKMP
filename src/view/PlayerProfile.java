@@ -24,6 +24,7 @@ public class PlayerProfile extends JFrame {
 	private JLabel playerPts, playerWins, gamesPlayed, avatar;
 	private JButton editBtn;
 	private ImageIcon avatarImg;
+	private ImageIcon greed = new ImageIcon(getClass().getResource("/greed.png"));
 
 	public PlayerProfile() {
 		
@@ -70,6 +71,20 @@ public class PlayerProfile extends JFrame {
 		lblGamesPlayed.setBounds(10, 147, 99, 14);
 		contentPane.add(lblGamesPlayed);
 		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(74, 30, 171, 8);
+		contentPane.add(separator);
+		
+		JLabel label = new JLabel("PLAYER STAT");
+		label.setForeground(new Color(255, 215, 0));
+		label.setBackground(new Color(255, 215, 0));
+		label.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		label.setBounds(84, 11, 116, 14);
+		contentPane.add(label);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(0, 86, 245, 8);
+		contentPane.add(separator_1);
 		
 		//labels and button needed
 		editBtn = new JButton("Edit avatar");
@@ -84,6 +99,7 @@ public class PlayerProfile extends JFrame {
 		avatar = new JLabel();
 		avatar.setHorizontalAlignment(SwingConstants.CENTER);
 		avatar.setBounds(10, 11, 64, 64);
+		avatar.setIcon(greed);
 		contentPane.add(avatar);
 		
 		playerPts = new JLabel("New label");
@@ -104,22 +120,8 @@ public class PlayerProfile extends JFrame {
 		gamesPlayed.setBounds(111, 148, 125, 14);
 		contentPane.add(gamesPlayed);
 		
-		JSeparator separator = new JSeparator();
-		separator.setBounds(74, 30, 171, 8);
-		contentPane.add(separator);
-		
-		JLabel label = new JLabel("PLAYER STAT");
-		label.setForeground(new Color(255, 215, 0));
-		label.setBackground(new Color(255, 215, 0));
-		label.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		label.setBounds(84, 11, 116, 14);
-		contentPane.add(label);
-		
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setBounds(0, 86, 245, 8);
-		contentPane.add(separator_1);
 	}
-
+//=======================================================================
 	//getters and setters
 	
 	public void setAvatar(String img) {

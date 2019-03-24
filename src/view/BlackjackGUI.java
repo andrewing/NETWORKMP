@@ -238,12 +238,16 @@ public class BlackjackGUI extends JFrame {
 		
 		playerAvatar = new JButton();
 		playerAvatar.setIcon(profile);
-		playerAvatar.setBorder(null);
 		playerAvatar.setOpaque(true);
 		playerAvatar.setBackground(new Color(46, 139, 87));
 		playerAvatar.setBounds(245, 245, 64, 64);
 		inGamePanel.add(playerAvatar);
 		
+	}
+	
+	public void setTableAvatar(String img) {
+		ImageIcon avatar = new ImageIcon(getClass().getResource(img));
+		this.playerAvatar.setIcon(avatar);
 	}
 	
 	public String getName() {

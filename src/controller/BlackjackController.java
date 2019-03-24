@@ -144,18 +144,27 @@ public class BlackjackController {
 			if(e.getActionCommand().equalsIgnoreCase("icon1")) {
 				String img = "/man.png";
 				profile.setAvatar(img);
+				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}else if(e.getActionCommand().equalsIgnoreCase("icon2")) {
 				String img = "/woman.png";
 				profile.setAvatar(img);
+				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}else if(e.getActionCommand().equalsIgnoreCase("icon3")) {
 				String img = "/man2.png";
 				profile.setAvatar(img);
+				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}else if(e.getActionCommand().equalsIgnoreCase("icon4")) {
 				String img = "/woman2.png";
 				profile.setAvatar(img);
+				blackjackView.setTableAvatar(img);
+				avatars.dispose();
+			}else {
+				String img = "/greed.png";
+				profile.setAvatar(img);
+				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}
 		}	

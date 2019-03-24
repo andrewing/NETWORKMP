@@ -40,7 +40,6 @@ public class OpponentProfile extends JFrame {
 		
 		JLabel lblImage = new JLabel("");
 		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
-		lblImage.setIcon(man);
 		lblImage.setBounds(10, 12, 64, 64);
 		contentPane.add(lblImage);
 		
