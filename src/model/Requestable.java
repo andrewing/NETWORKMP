@@ -1,5 +1,7 @@
 package model;
 
-public interface Requestable {
+import java.io.Serializable;
+
+public interface Requestable extends Serializable {
 	public void request();
 }

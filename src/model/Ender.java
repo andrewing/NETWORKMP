@@ -1,13 +1,9 @@
 package model;
 
-import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
-public class Ender implements Requestable, Serializable{
+public class Ender implements Requestable{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1631115892095947768L;
 	private BlackJackGame bjg;
 	public Ender(BlackJackGame bjg) {
 		this.bjg = bjg;
@@ -18,7 +14,8 @@ public class Ender implements Requestable, Serializable{
 	}
 	
 	public void request() {
-		System.out.println("hello");
+
+		System.out.println("ENDER CLASS");
 	}
 
 }

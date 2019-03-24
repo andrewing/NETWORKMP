@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class Dealer extends Player{
+public class Dealer extends Player implements Serializable{
 	private Deck deck;
 	
 	public Dealer() {

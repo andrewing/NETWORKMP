@@ -6,7 +6,7 @@ import java.util.*;
 import udpserverclient.UDPClient;
 import udpserverclient.UDPServer;
 
-public class BlackJackGame implements Runnable{
+public class BlackJackGame implements Runnable, Serializable{
 	private Dealer dealer;
 	private List<Player> players;
 	public UDPClient udpClient;
@@ -40,6 +40,13 @@ public class BlackJackGame implements Runnable{
 			udpServer = new UDPServer(this);
 			udpServer.start();
 		}
+	}
+	
+	public void playerJoin(Player player) {
+		players.add(player);
+		udpClient = new UDPClient(this, "localhost");
+		new Thread(udpClient, "joiner").start();
+		udpClient.sendData("playerJoin".getBytes());
 	}
 
 	public void end() {

@@ -11,8 +11,8 @@ import model.Ender;
 import model.Requestable;
 import util.BitUtil;
 
-public class UDPClient implements Runnable{
-	private DatagramSocket socket;
+public class UDPClient implements Runnable, Serializable{
+	private transient DatagramSocket socket;
 	private InetAddress ip;
 	private BlackJackGame bjg;
 
@@ -43,15 +43,13 @@ public class UDPClient implements Runnable{
 
 			socket.receive(packet);
 			dpm = DatagramPacketModifier.fromDatagramPacket(packet);
-			System.out.println(new String(dpm.getData()));
-			System.out.println("hello");
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//			Object o = BitUtil.toObject(dpm.getData());
-		//			Requestable r = (Requestable)o;
-		//			r.request();
+		Object o = BitUtil.toObject(dpm.getData());
+		Requestable r = (Requestable)o;
+		r.request();
 
 
 		System.out.println("CLIENT IS STOPPED");
@@ -78,6 +76,8 @@ public class UDPClient implements Runnable{
 
 
 	public static void main(String args[]) throws IOException, InterruptedException {
+		
+		
 		//		BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
 		//		
 		//		DatagramSocket clientSocket = new DatagramSocket();
@@ -102,16 +102,7 @@ public class UDPClient implements Runnable{
 		//		
 		//		System.out.println("FROM SERVER: " + modifiedSentence);
 		//		clientSocket.close();
-		UDPClient client = new UDPClient("localhost");
-		UDPClient client2 = new UDPClient("localhost");
-		Thread t = new Thread(client, "client");
-		Thread t2 = new Thread(client2, "client2");
-		t.start();
-		t2.start();
-		client.sendData(BitUtil.toBytes(new Ender()));
-		client2.sendData(BitUtil.toBytes(new Ender()));
-		t.interrupt();
-		t2.interrupt();
+		
 
 
 

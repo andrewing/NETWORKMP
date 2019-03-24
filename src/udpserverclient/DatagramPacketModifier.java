@@ -9,7 +9,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.*;
-public class DatagramPacketModifier implements Comparable{
+public class DatagramPacketModifier implements Comparable, Serializable{
 	
 	private int flowcontrol;
 	private byte[] data;

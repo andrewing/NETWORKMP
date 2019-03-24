@@ -9,6 +9,7 @@ import java.net.*;
 
 import model.BlackJackGame;
 import model.Ender;
+import model.Joiner;
 import model.Requestable;
 import util.BitUtil;
 
@@ -38,10 +39,10 @@ public class Responder implements Runnable{
 	private byte[] makeResponse() {
 		DatagramPacketModifier dpm = DatagramPacketModifier.fromDatagramPacket(packet);
 		String data = new String(dpm.getData());
-		if(data.substring(0, "end".length()).equalsIgnoreCase("end")) {
-			System.out.println("in");
+		if(data.trim().equalsIgnoreCase("end")) {
 			return BitUtil.toBytes(new Ender(this.bjg));
-//			return "ended".getBytes();
+		}else if(data.trim().equalsIgnoreCase("playerJoin")) {
+			return BitUtil.toBytes(new Joiner(this.bjg));
 		}
 		return null;
 

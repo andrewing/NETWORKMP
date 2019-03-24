@@ -5,8 +5,8 @@ import java.net.*;
 
 import model.BlackJackGame;
 
-public class UDPServer extends Thread{
-	private DatagramSocket socket;
+public class UDPServer extends Thread implements Serializable{
+	private transient DatagramSocket socket;
 	private BlackJackGame bjg;
 	public UDPServer(BlackJackGame bjg) {
 		this.bjg = bjg;
@@ -29,7 +29,7 @@ public class UDPServer extends Thread{
 		while (true) {
 			byte[] data = new byte[4096];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
-
+			
 			try {
 				socket.receive(packet);
 			} catch (IOException e) {
