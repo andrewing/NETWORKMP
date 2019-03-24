@@ -15,7 +15,7 @@ public class Deck {
 		for(String face: faces)
 			for(String suit: suits)
 				cards.add(new Card(face, suit));
-		//shuffleDeck();
+		shuffleDeck();
 	}
 	
 	public void shuffleDeck() {
