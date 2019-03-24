@@ -4,12 +4,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.*;
 
 import model.BlackJackGame;
 import model.Ender;
+import model.Requestable;
+import util.BitUtil;
 
-public class Responder implements Runnable {
+public class Responder implements Runnable{
 
 	private DatagramSocket socket = null;
 	private DatagramPacket packet = null;
@@ -23,6 +26,7 @@ public class Responder implements Runnable {
 	public void run() {
 		try {
 			byte[] data = makeResponse();
+			System.out.println(data == null);
 			DatagramPacketModifier dpm = new DatagramPacketModifier(data);
 			DatagramPacket response = dpm.asDatagramPacket(packet.getAddress(), packet.getPort());
 			socket.send(response);
@@ -33,33 +37,16 @@ public class Responder implements Runnable {
 
 	private byte[] makeResponse() {
 		DatagramPacketModifier dpm = DatagramPacketModifier.fromDatagramPacket(packet);
-		switch(new String(dpm.getData())) {
-			case "end":
-				return toBytes(new Ender(this.bjg));
-			default:
+		String data = new String(dpm.getData());
+		if(data.substring(0, "end".length()).equalsIgnoreCase("end")) {
+			System.out.println("in");
+			return BitUtil.toBytes(new Ender(this.bjg));
+//			return "ended".getBytes();
 		}
 		return null;
-	}
-	
-	private byte[] toBytes(Object obj) {
-		byte[] bytes = null;
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		ObjectOutput out = null;
-		try {
-			out = new ObjectOutputStream(bos);   
-			out.writeObject(obj);
-			out.flush();
-			bytes = bos.toByteArray();
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				bos.close();
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		return bytes;
+
 	}
+
+
 }

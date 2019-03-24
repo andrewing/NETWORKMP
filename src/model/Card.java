@@ -1,6 +1,8 @@
 package model;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card{
 	private String suit;
 	private String face;
 	

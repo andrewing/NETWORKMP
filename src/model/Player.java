@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Player {
+public class Player{
+
 	private String name;
 	private String imgPath;
 	private int wins;

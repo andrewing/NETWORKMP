@@ -16,7 +16,6 @@ public class BlackjackController {
 	private OpponentProfile oppProfile;
 	private Avatars avatars;
 	
-	private BlackJackGame bjg;
 	
 	public BlackjackController(BlackjackGUI gameView) {
 		

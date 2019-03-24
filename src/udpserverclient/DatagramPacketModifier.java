@@ -1,6 +1,7 @@
 package udpserverclient;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -9,6 +10,7 @@ import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
 import java.util.*;
 public class DatagramPacketModifier implements Comparable{
+	
 	private int flowcontrol;
 	private byte[] data;
 	private static int packetNumber = 0;

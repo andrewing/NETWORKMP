@@ -1,9 +1,10 @@
 package model;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Deck {
+public class Deck{
 	private List<Card> cards;
 	public Deck() {
 		cards = new Stack<Card>();
