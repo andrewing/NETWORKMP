@@ -1,53 +1,63 @@
 package udpserverclient;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.net.*;
+import java.io.*;
+import java.net.Socket;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import event.EditProfileEvent;
+import event.Event;
+import event.HitEvent;
+import event.JoinEvent;
 import model.BlackJackGame;
-import model.Ender;
-import model.Joiner;
-import model.Requestable;
-import util.BitUtil;
 
-public class Responder implements Runnable{
+public class Responder implements Runnable {
 
-	private DatagramSocket socket = null;
-	private DatagramPacket packet = null;
+	private Socket clientSocket;
+	private int id;
 	private BlackJackGame bjg;
-	public Responder(DatagramSocket socket, DatagramPacket packet, BlackJackGame bjg) {
-		this.socket = socket;
-		this.packet = packet;
+	public Responder(Socket clientSocket, int id, BlackJackGame bjg) {
+		this.clientSocket = clientSocket;
+		this.id = id;
 		this.bjg = bjg;
 	}
-
+	@Override
 	public void run() {
+
 		try {
-			byte[] data = makeResponse();
-			System.out.println(data == null);
-			DatagramPacketModifier dpm = new DatagramPacketModifier(data);
-			DatagramPacket response = dpm.asDatagramPacket(packet.getAddress(), packet.getPort());
-			socket.send(response);
-		} catch (IOException e) {
+			while(true) {
+				printTime();
+				ObjectInputStream inFromClient = new ObjectInputStream(clientSocket.getInputStream());
+				Event event = (Event) inFromClient.readObject();
+
+				event = makeResponse(event);
+
+				event.execute(bjg);
+				System.out.println("SERVER EXECUTE");
+				ObjectOutputStream outToClient = new ObjectOutputStream(clientSocket.getOutputStream());
+				outToClient.writeObject(event);  
+
+			}
+
+		}catch(IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private byte[] makeResponse() {
-		DatagramPacketModifier dpm = DatagramPacketModifier.fromDatagramPacket(packet);
-		String data = new String(dpm.getData());
-		if(data.trim().equalsIgnoreCase("end")) {
-			return BitUtil.toBytes(new Ender(this.bjg));
-		}else if(data.trim().equalsIgnoreCase("playerJoin")) {
-			return BitUtil.toBytes(new Joiner(this.bjg));
-		}
-		return null;
-
 
 	}
 
+	private Event makeResponse(Event event) {
+		Event e = event;
+		e.set(bjg);
+		return e;
+	}
+
+	private void printTime() {
+		long time = System.currentTimeMillis();
+		Date date = new Date(time);
+		Format format = new SimpleDateFormat("HH:mm");
+		System.out.println("Request processed: @ " + format.format(date));
+
+	}
 
 }

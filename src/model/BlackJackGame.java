@@ -2,21 +2,24 @@ package model;
 
 import java.io.Serializable;
 import java.util.*;
-
-import udpserverclient.UDPClient;
-import udpserverclient.UDPServer;
-
-public class BlackJackGame implements Runnable, Serializable{
+import event.*;
+public class BlackJackGame implements Serializable{
+	private static int games = 0;
 	private Dealer dealer;
 	private List<Player> players;
-	public UDPClient udpClient;
-	private UDPServer udpServer;
 
-	private boolean isServer;
-	public BlackJackGame(boolean isServer) {
+	public BlackJackGame() {
+		games++;
 		dealer = new Dealer();
 		players = new ArrayList<>();
-		this.isServer = isServer;
+	}
+	
+	public static int getGames() {
+		return games;
+	}
+
+	public static void setGames(int games) {
+		BlackJackGame.games = games;
 	}
 
 	public synchronized Dealer getDealer() {
@@ -27,36 +30,21 @@ public class BlackJackGame implements Runnable, Serializable{
 		this.dealer = dealer;
 	}
 
-	public synchronized List<Player> getPlayers() {
+	public List<Player> getPlayers() {
 		return players;
 	}
 
 	public synchronized void setPlayers(List<Player> players) {
 		this.players = players;
 	}
-
-	public void run() {
-		if(isServer) {
-			udpServer = new UDPServer(this);
-			udpServer.start();
-		}
-	}
 	
-	public void playerJoin(Player player) {
-		players.add(player);
-		udpClient = new UDPClient(this, "localhost");
-		new Thread(udpClient, "joiner").start();
-		udpClient.sendData("playerJoin".getBytes());
+	public Player findPlayer(int id) {
+		for(Player a: players) {
+			if(a.getId() == id) {
+				return a;
+			}
+		}
+		return null;
 	}
-
-	public void end() {
-		udpClient = new UDPClient(this, "localhost");
-		new Thread(udpClient, "ender").start();
-		udpClient.sendData("end".getBytes());
-	}
-
-
-
-
 
 }

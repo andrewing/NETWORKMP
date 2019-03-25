@@ -4,11 +4,14 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import model.Player;
+
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class BlackjackGUI extends JFrame {
-	
+
 	private ImageIcon profile = new ImageIcon(getClass().getResource("/greed.png"));
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
 	private ImageIcon lowerIcon = new ImageIcon(getClass().getResource("/low.png"));
@@ -25,63 +28,63 @@ public class BlackjackGUI extends JFrame {
 	private JButton betBtn;
 	private JLabel lblPlayerBet, lblOpponent1Bet, lblOpponent2Bet;
 	private JButton playerAvatar, opponent1Avatar, opponent2Avatar;
-	
+
 	public BlackjackGUI() {
-		
+
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-			
+
 		}
 		catch (Exception e) {}
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 826, 452);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		mainPanel = new JPanel();
 		mainPanel.setBounds(10, 11, 794, 396);
 		contentPane.add(mainPanel);
-		
-				
+
+
 		cl = new CardLayout();
 		mainPanel.setLayout(cl);
-		
+
 		startGamePanel = new JPanel();
 		mainPanel.add(startGamePanel);
 		startGamePanel.setLayout(null);
-		
+
 		inGamePanel = new JPanel();
 		inGamePanel.setBackground(new Color(46, 139, 87));
 		mainPanel.add(inGamePanel, "0");
 		inGamePanel.setLayout(null);
-		
+
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.setFont(new Font("Segoe UI Historic", Font.BOLD, 13));
 		btnStartGame.setBounds(310, 225, 123, 23);
 		startGamePanel.add(btnStartGame);
-		
-		
+
+
 		JLabel lblBlackjack = new JLabel("BLACKJACK");
 		lblBlackjack.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBlackjack.setFont(new Font("Yu Gothic Light", Font.BOLD, 30));
 		lblBlackjack.setBounds(270, 139, 190, 49);
 		startGamePanel.add(lblBlackjack);
-		
+
 		JLabel lblName = new JLabel("Name:");
 		lblName.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
 		lblName.setBounds(232, 201, 49, 14);
 		startGamePanel.add(lblName);
-		
+
 		JLabel lblDealer = new JLabel("DEALER");
 		lblDealer.setForeground(new Color(255, 215, 0));
 		lblDealer.setBounds(351, 32, 105, 27);
 		lblDealer.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		lblDealer.setHorizontalAlignment(SwingConstants.CENTER);
 		inGamePanel.add(lblDealer);	
-		
+
 		nameTxtField = new JTextField();
 		nameTxtField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		nameTxtField.setBounds(280, 194, 203, 29);
@@ -89,7 +92,7 @@ public class BlackjackGUI extends JFrame {
 		nameTxtField.setBackground(Color.LIGHT_GRAY);
 		startGamePanel.add(nameTxtField);
 		nameTxtField.setColumns(10);
-		
+
 		//dealer table
 		dealerTable = new JPanel();
 		dealerTable.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -97,7 +100,7 @@ public class BlackjackGUI extends JFrame {
 		dealerTable.setBounds(256, 70, 288, 74);
 		dealerTable.setLayout((new FlowLayout(FlowLayout.CENTER)));
 		inGamePanel.add(dealerTable);
-		
+
 		//player tables
 		opponent1Table = new JPanel();
 		opponent1Table.setForeground(Color.WHITE);
@@ -106,7 +109,7 @@ public class BlackjackGUI extends JFrame {
 		opponent1Table.setBounds(89, 155, 236, 74);
 		opponent1Table.setLayout(new FlowLayout(FlowLayout.CENTER));
 		inGamePanel.add(opponent1Table);
-		
+
 		opponent2Table = new JPanel();
 		opponent2Table.setBackground(new Color(46, 139, 87));
 		opponent2Table.setBorder(BorderFactory.createRaisedBevelBorder());
@@ -126,7 +129,7 @@ public class BlackjackGUI extends JFrame {
 		playerTable.setBackground(new Color(46, 139, 87));
 		playerTable.setBorder(BorderFactory.createRaisedBevelBorder());
 		scrollPane.setViewportView(playerTable);
-		
+
 		//player buttons
 		hitBtn = new JButton("Hit");
 		hitBtn.setForeground(new Color(0, 0, 0));
@@ -134,21 +137,21 @@ public class BlackjackGUI extends JFrame {
 		hitBtn.setBounds(256, 325, 54, 27);
 		hitBtn.setBackground(new Color(255, 215, 0));
 		inGamePanel.add(hitBtn);
-		
+
 		standBtn = new JButton("Stand");
 		standBtn.setForeground(new Color(0, 0, 0));
 		standBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		standBtn.setBounds(318, 325, 84, 27);
 		standBtn.setBackground(new Color(255, 215, 0));
 		inGamePanel.add(standBtn);
-		
+
 		betBtn = new JButton("Bet");
 		betBtn.setForeground(new Color(0, 0, 0));
 		betBtn.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		betBtn.setBounds(411, 325, 63, 27);
 		betBtn.setBackground(new Color(255, 215, 0));
 		inGamePanel.add(betBtn);
-	
+
 		betTxtField = new JFormattedTextField("0");
 		betTxtField.setBounds(476, 325, 45, 27);
 		betTxtField.setBackground(new Color(0, 153, 102));
@@ -156,137 +159,149 @@ public class BlackjackGUI extends JFrame {
 		betTxtField.setBorder(BorderFactory.createLineBorder(new Color(255, 215, 0)));
 		inGamePanel.add(betTxtField);
 		betTxtField.setColumns(10);
-		
+
 		addBetBtn = new JButton();
 		addBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
 		addBetBtn.setBounds(520, 325, 24, 14);
 		addBetBtn.setBackground(new Color(255, 215, 0));
 		addBetBtn.setIcon(addIcon);
 		inGamePanel.add(addBetBtn);
-		
+
 		lowerBetBtn = new JButton();
 		lowerBetBtn.setFont(new Font("MS Gothic", Font.BOLD, 5));
 		lowerBetBtn.setBounds(520, 338, 24, 14);
 		lowerBetBtn.setBackground(new Color(255, 215, 0));
 		lowerBetBtn.setIcon(lowerIcon);
 		inGamePanel.add(lowerBetBtn);
-		
+
 		//labels
 		JLabel lblPoints = new JLabel("Points :");
 		lblPoints.setForeground(new Color(255, 215, 0));
 		lblPoints.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblPoints.setBounds(281, 368, 48, 14);
 		inGamePanel.add(lblPoints);
-		
+
 		JLabel lblBetAmt = new JLabel("Bet Amount :");
 		lblBetAmt.setForeground(new Color(255, 215, 0));
 		lblBetAmt.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblBetAmt.setBounds(398, 368, 85, 14);
 		inGamePanel.add(lblBetAmt);
-		
+
 		JLabel label = new JLabel("Bet Amount :");
 		label.setForeground(new Color(255, 215, 0));
 		label.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		label.setBounds(564, 229, 85, 14);
 		inGamePanel.add(label);
-		
+
 		JLabel label_3 = new JLabel("Bet Amount :");
 		label_3.setForeground(new Color(255, 215, 0));
 		label_3.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		label_3.setBounds(97, 229, 85, 14);
 		inGamePanel.add(label_3);
-		
+
 		//labels to be modified
 		lblPlayerPoints = new JLabel("300");
 		lblPlayerPoints.setForeground(Color.WHITE);
 		lblPlayerPoints.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblPlayerPoints.setBounds(334, 368, 54, 14);
 		inGamePanel.add(lblPlayerPoints);
-		
+
 		lblPlayerBet = new JLabel("300");
 		lblPlayerBet.setForeground(Color.WHITE);
 		lblPlayerBet.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblPlayerBet.setBounds(486, 369, 54, 14);
 		inGamePanel.add(lblPlayerBet);
-		
+
 		lblOpponent1Bet = new JLabel("300");
 		lblOpponent1Bet.setForeground(Color.WHITE);
 		lblOpponent1Bet.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblOpponent1Bet.setBounds(192, 230, 54, 14);
 		inGamePanel.add(lblOpponent1Bet);
-		
+
 		lblOpponent2Bet = new JLabel("300");
 		lblOpponent2Bet.setForeground(Color.WHITE);
 		lblOpponent2Bet.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblOpponent2Bet.setBounds(659, 229, 54, 14);
 		inGamePanel.add(lblOpponent2Bet);
-		
-	//players profile	
+
+		//players profile	
 		opponent1Avatar = new JButton();
 		opponent1Avatar.setBounds(26, 160, 64, 64);
 		opponent1Avatar.setIcon(profile);
 		opponent1Avatar.setOpaque(true);
 		opponent1Avatar.setBackground(new Color(46,139,87));
 		inGamePanel.add(opponent1Avatar);
-		
+
 		opponent2Avatar = new JButton();
 		opponent2Avatar.setBounds(457, 160, 64, 64);
 		opponent2Avatar.setIcon(profile);
 		opponent2Avatar.setOpaque(true);
 		opponent2Avatar.setBackground(new Color(46,139,87));
 		inGamePanel.add(opponent2Avatar);
-		
+
 		playerAvatar = new JButton();
 		playerAvatar.setIcon(profile);
 		playerAvatar.setOpaque(true);
 		playerAvatar.setBackground(new Color(46, 139, 87));
 		playerAvatar.setBounds(245, 245, 64, 64);
 		inGamePanel.add(playerAvatar);
-		
+
 	}
-	
+
 	public void setTableAvatar(String img) {
 		ImageIcon avatar = new ImageIcon(getClass().getResource(img));
 		this.playerAvatar.setIcon(avatar);
 	}
-	
+
 	public String getName() {
 		return nameTxtField.getText();
 	}
-	
-	public void setBorder() {
-		
-		TitledBorder titleBorder = new TitledBorder(BorderFactory.createLoweredBevelBorder(), getName(), TitledBorder.ABOVE_TOP,
-									TitledBorder.CENTER, new Font("Segoe UI", Font.PLAIN, 13), Color.WHITE);
-		
-		playerTable.setBorder(titleBorder);
-		
+
+	public void setBorder(Object...o) {
+		java.util.List<TitledBorder> tb = new ArrayList<>();
+		for(Object obj: o)
+			tb.add(setBorder(obj));
+		if(tb.size()>0)
+		playerTable.setBorder(tb.get(0));
+		if(tb.size() > 1)
+		opponent1Table.setBorder(tb.get(1));
+		if(tb.size() > 2)
+		opponent2Table.setBorder(tb.get(2));
+
 	}
-	
+
+	public TitledBorder setBorder(Object o) {
+		Player player = (Player)o;
+		if(player!=null)
+			return new TitledBorder(BorderFactory.createLoweredBevelBorder(), player.getName(), TitledBorder.ABOVE_TOP,
+					TitledBorder.CENTER, new Font("Segoe UI", Font.PLAIN, 13), Color.WHITE);
+		return null;
+	}
+
 	public void setPlayerTable(String drawedCard){
-       		JLabel card = new JLabel();
-       		playerTable.add(card);
-       		playerTable.add(Box.createRigidArea(new Dimension(1,0)));
-			card.setIcon(new ImageIcon(getClass().getResource(drawedCard)));
-			System.out.println(drawedCard);
+		JLabel card = new JLabel();
+		playerTable.add(card);
+		playerTable.add(Box.createRigidArea(new Dimension(1,0)));
+		card.setIcon(new ImageIcon(getClass().getResource(drawedCard)));
+		System.out.println(drawedCard);
 	}
-//=========================================================================================	
-//getters and setters for text fields	
+	//=========================================================================================	
+	//getters and setters for text fields	
 	public String getBetTxtFieldInput() {
 		return betTxtField.getText();
 	}
-	
+
 	public void setBetTxtField(String bet) {
 		betTxtField.setText(bet);
 	}
-//=========================================================================================
-//getters and setters for labels
-	
+	//=========================================================================================
+	//getters and setters for labels
+
 	//opponent bets
 	public String getOpponent1Bet() {
 		return lblOpponent1Bet.getText();
 	}
-	
+
 	public String getOpponent2Bet() {
 		return lblOpponent2Bet.getText();
 	}
@@ -295,53 +310,53 @@ public class BlackjackGUI extends JFrame {
 	public String getPlayerBet() {
 		return this.lblPlayerBet.getText();
 	}
-	
+
 	public void setPlayerBet(String bet) {
 		lblPlayerBet.setText(bet);
 	}
-	
+
 	public String getPlayerPoints() {
 		return lblPlayerPoints.getText();
 	}
-	
+
 	public void setPlayerPoints(String points) {
 		lblPlayerPoints.setText(points);
 	}
-	
-//===============================================================================	
-//button listeners	
+
+	//===============================================================================	
+	//button listeners	
 	public void StartGameBtnListener(ActionListener listenerForStartBtn) {
 		btnStartGame.addActionListener(listenerForStartBtn);
 	}
-	
+
 	public void HitBtnListener(ActionListener listenerForHitBtn) {
 		hitBtn.addActionListener(listenerForHitBtn);
 	}
-	
+
 	public void StandBtnListener(ActionListener listenerForStandBtn) {
 		standBtn.addActionListener(listenerForStandBtn);
 	}
-	
+
 	public void BetBtnListener(ActionListener listenerForBetBtn) {
 		betBtn.addActionListener(listenerForBetBtn);
 	}
-	
+
 	public void AddBetBtnListener(ActionListener listenerForAddBetBtn) {
 		addBetBtn.addActionListener(listenerForAddBetBtn);
 	}
-	
+
 	public void LowerBetBtnListener(ActionListener listenerForLowerBetBtn) {
 		lowerBetBtn.addActionListener(listenerForLowerBetBtn);
 	}
-	
+
 	public void PlayerAvatarListener(ActionListener listenerForPlayerAvatar) {
 		playerAvatar.addActionListener(listenerForPlayerAvatar);
 	}
-	
+
 	public void Opponent1AvatarListener(ActionListener listenerForOpponent1Avatar) {
 		opponent1Avatar.addActionListener(listenerForOpponent1Avatar);
 	}
-	
+
 	public void Opponent2AvatarListener(ActionListener listenerForOpponent2Avatar) {
 		opponent2Avatar.addActionListener(listenerForOpponent2Avatar);
 	}

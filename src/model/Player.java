@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Player implements Serializable{
-
+	private int id;
+	private static int players = 0;
 	private String name;
 	private String imgPath;
 	private int wins;
@@ -13,11 +14,39 @@ public class Player implements Serializable{
 	private List<Card> hand;
 	
 	public Player(String name, String imgPath) {
+		id = players;
+		players++;
 		hand = new ArrayList<>();
 		this.name = name;
 		this.imgPath = imgPath;
 		wins = 0;
 		games = 0;
+		points = 300;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public static int getPlayers() {
+		return players;
+	}
+
+	public static void setPlayers(int players) {
+		Player.players = players;
+	}
+
+	public void setAll(Player player) {
+		this.games = player.getGames();
+		this.hand = player.getHand();
+		this.imgPath = player.getImgPath();
+		this.name = player.getName();
+		this.points = player.getPoints();
+		this.wins = player.getWins();
 	}
 
 	public String getName() {
@@ -118,6 +147,11 @@ public class Player implements Serializable{
 			aces--;
 		}
 		return sum;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return this.id == ((Player)obj).id;
 	}
 	
 	/*test*/
