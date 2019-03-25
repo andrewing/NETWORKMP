@@ -48,6 +48,10 @@ public class Player implements Serializable{
 		this.points = points;
 	}
 	
+	public void addPoints(int points) {
+		this.points += points;
+	}
+	
 	public String getImgPath() {
 		return imgPath;
 	}
@@ -76,8 +80,8 @@ public class Player implements Serializable{
 		hand.add(card);
 	}
 	
-	public void stand() {
-		
+	public boolean stand() {
+		return true;
 	}
 	
 	public void reset() {

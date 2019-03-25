@@ -56,7 +56,4 @@ public class BlackJackGame implements Runnable, Serializable{
 	}
 
 
-
-
-
 }
