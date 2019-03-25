@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 
 import javax.swing.*;
@@ -25,6 +25,7 @@ public class BlackjackController {
 		this.oppProfile = new OpponentProfile();
 		this.avatars = new Avatars();
 		
+		this.blackjackView.FrameWindowListener(new WindowListenerForFrame());
 		this.blackjackView.StartGameBtnListener(new ListenerForStartGameBtn());
 		this.blackjackView.HitBtnListener(new ListenerForHitBtn());
 		this.blackjackView.StandBtnListener(new ListenerForStandBtn());
@@ -173,7 +174,30 @@ public class BlackjackController {
 		}	
 	}
 	
-	
+	class WindowListenerForFrame implements WindowListener {
+
+		@Override
+		public void windowOpened(WindowEvent e) {}
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+			System.out.println("Close");
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {}
+
+		@Override
+		public void windowIconified(WindowEvent e) {}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {}
+		@Override
+		public void windowActivated(WindowEvent e) {}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {}
+	}
 	
 	
 }

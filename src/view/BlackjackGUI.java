@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 
 
 public class BlackjackGUI extends JFrame {
@@ -344,5 +345,9 @@ public class BlackjackGUI extends JFrame {
 	
 	public void Opponent2AvatarListener(ActionListener listenerForOpponent2Avatar) {
 		opponent2Avatar.addActionListener(listenerForOpponent2Avatar);
+	}
+	
+	public void FrameWindowListener(WindowListener windowListenerForFrame) {
+		this.addWindowListener(windowListenerForFrame);
 	}
 }
