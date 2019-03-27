@@ -36,12 +36,8 @@ public class BlackjackController {
 		this.profile = new PlayerProfile();
 		this.oppProfile = new OpponentProfile();
 		this.avatars = new Avatars();
-<<<<<<< HEAD
-
-=======
 		
 		this.blackjackView.FrameWindowListener(new WindowListenerForFrame());
->>>>>>> 1c772642bd44dc38ef3628d0f6ea6e2c7002efcc
 		this.blackjackView.StartGameBtnListener(new ListenerForStartGameBtn());
 		this.blackjackView.HitBtnListener(new ListenerForHitBtn());
 		this.blackjackView.StandBtnListener(new ListenerForStandBtn());
@@ -100,12 +96,6 @@ public class BlackjackController {
 	class ListenerForStandBtn implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
-
-=======
-			
-			
->>>>>>> 1c772642bd44dc38ef3628d0f6ea6e2c7002efcc
 		}
 
 	}
@@ -212,12 +202,6 @@ public class BlackjackController {
 			}
 		}	
 	}
-<<<<<<< HEAD
-
-
-
-
-=======
 	
 	class WindowListenerForFrame implements WindowListener {
 
@@ -244,6 +228,4 @@ public class BlackjackController {
 		public void windowDeactivated(WindowEvent e) {}
 	}
 	
-	
->>>>>>> 1c772642bd44dc38ef3628d0f6ea6e2c7002efcc
 }
