@@ -26,7 +26,7 @@ public class Responder implements Runnable {
 
 	}
 	@Override
-	public void run() {
+	public  void run() {
 
 		try {
 			DataOutputStream outToClient = new DataOutputStream(clientSocket.getOutputStream());
@@ -40,8 +40,8 @@ public class Responder implements Runnable {
 				Event event = (Event) o;
 				
 				
-				event.set(bjg);
 				event.execute(bjg);
+				event.set(bjg);
 				event.statusPrint();
 				
 				byte[] bevents = BitUtil.toBytes(event);

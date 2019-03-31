@@ -22,7 +22,6 @@ public class JoinEvent extends Event{
 		this.players = players;
 	}
 
-
 	@Override
 	public void execute(BlackJackGame bjg) {
 		for(Player p: players) {

@@ -10,6 +10,8 @@ public class Player implements Serializable{
 	private int games;
 	private int points;
 	private int bet;
+	private int handCount;
+	private boolean turn;
 	private List<Card> hand;
 	
 	public Player(String name, String imgPath) {
@@ -20,17 +22,47 @@ public class Player implements Serializable{
 		games = 0;
 		points = 300;
 		bet = 0;
+		turn = false;
+		handCount = 0;
 	}
 
+	
 	public void setAll(Player player) {
+		this.name = player.getName();
+		this.imgPath = player.getImgPath();
+		this.wins = player.getWins();
 		this.games = player.getGames();
 		this.hand = player.getHand();
-		this.imgPath = player.getImgPath();
-		this.name = player.getName();
 		this.points = player.getPoints();
-		this.wins = player.getWins();
+		this.bet = player.getBet();
+		this.turn = player.isTurn();
+		this.handCount = player.getHandCount();
 	}
 
+	
+	public int getHandCount() {
+		return handCount;
+	}
+
+	public boolean isTurn() {
+		return turn;
+	}
+
+
+	public void setTurn(boolean turn) {
+		this.turn = turn;
+	}
+
+
+	public int getBet() {
+		return bet;
+	}
+
+	public void setBet(int bet) {
+		this.bet = bet;
+	}
+
+	
 	public String getName() {
 		return name;
 	}
@@ -45,10 +77,6 @@ public class Player implements Serializable{
 
 	public void setHand(List<Card> cardsOnHand) {
 		this.hand = cardsOnHand;
-	}
-	
-	public int getHandCount() {
-		return hand.size();
 	}
 	
 	public int getPoints() {
@@ -87,8 +115,9 @@ public class Player implements Serializable{
 		this.games = games;
 	}
 	
-	public void hit(Card card) {
+	public synchronized void hit(Card card) {
 		hand.add(0, card);
+		handCount++;
 	}
 	
 	public boolean stand() {

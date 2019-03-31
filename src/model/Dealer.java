@@ -11,7 +11,7 @@ public class Dealer extends Player implements Serializable{
 		deck.initializeStandardDeck();
 	}
 	
-	public Card deal() {
+	public synchronized Card deal() {
 		return deck.drawCard();
 	}
 	

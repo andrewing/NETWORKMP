@@ -23,7 +23,7 @@ public class Deck implements Serializable{
 		Collections.shuffle(cards);
 	}
 	
-	public Card drawCard() {
+	public synchronized Card drawCard() {
 		return ((Stack<Card>)cards).pop();
 	}
 	

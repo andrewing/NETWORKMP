@@ -21,7 +21,7 @@ import java.awt.Color;
 public class PlayerProfile extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel playerPts, playerWins, gamesPlayed, avatar;
+	private JLabel playerPts, playerWins, gamesPlayed, avatar, lblPlayerName;
 	private JButton editBtn;
 	private ImageIcon avatarImg;
 	private ImageIcon greed = new ImageIcon(getClass().getResource("/greed.png"));
@@ -47,11 +47,11 @@ public class PlayerProfile extends JFrame {
 		lblName.setBounds(84, 35, 45, 14);
 		contentPane.add(lblName);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		lblNewLabel.setBounds(136, 35, 109, 14);
-		contentPane.add(lblNewLabel);
+		lblPlayerName = new JLabel("<name>");
+		lblPlayerName.setForeground(new Color(255, 255, 255));
+		lblPlayerName.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		lblPlayerName.setBounds(136, 35, 109, 14);
+		contentPane.add(lblPlayerName);
 		
 		JLabel lblPoints = new JLabel("Points :");
 		lblPoints.setForeground(new Color(255, 215, 0));
@@ -156,6 +156,14 @@ public class PlayerProfile extends JFrame {
 	
 	public void editBtnListener(ActionListener listenerForEditBtn) {
 		editBtn.addActionListener(listenerForEditBtn);
+	}
+	
+	public JLabel getLblPlayerName() {
+		return lblPlayerName;
+	}
+
+	public void setLblPlayerName(String name) {
+		lblPlayerName.setText(name);
 	}
 
 }

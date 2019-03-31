@@ -20,6 +20,7 @@ public class TCPClient implements Runnable{
 	private String ip;
 	private int port; 
 	private BlackJackGame bjg;
+	private Thread tclient;
 	private volatile boolean exit = false;
 	private volatile boolean sent = false;
 
@@ -35,20 +36,20 @@ public class TCPClient implements Runnable{
 		}
 	}
 	public void run() {
-		
+
 		while(!exit) {
-			while(!sent) {
-				
-			}
-			sent = false;
 			try {
 				DataInputStream inFromServer = new DataInputStream(socket.getInputStream());
 				DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+				while(!sent) {
+					
+				}
+				sent = false;
 				int numPackets = inFromServer.readInt();
 				System.out.println("*********************************PLACED INTO BUFFER*********************************");
 				while(numPackets > 0) { 
 					byte[] chunks = new byte[PacketUtil.FRAME];
-					
+
 					int syn = inFromServer.readInt();
 					int ack = inFromServer.readInt();
 					inFromServer.read(chunks, 0, chunks.length);
@@ -60,7 +61,7 @@ public class TCPClient implements Runnable{
 					numPackets--;
 				}	
 				Collections.sort(buffer);
-				
+
 				byte[] data = PacketUtil.combine(buffer);
 				Object o = BitUtil.toObject(data);
 				Event event = (Event) o;
@@ -69,18 +70,18 @@ public class TCPClient implements Runnable{
 				buffer.clear();
 				System.out.println("*******************************DATA PROCESSED SUCCESSFULLY*******************************");
 
-				
-			}catch(IOException  e) {
+
+			}catch(IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void stop() {
+	public synchronized void stop() {
 		exit = true;
 	}
 
-	public void send(Event event) {
+	public synchronized void send(Event event) {
 		try {
 			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
 			DataInputStream inFromServer = new DataInputStream(socket.getInputStream());
@@ -89,18 +90,18 @@ public class TCPClient implements Runnable{
 			buffer = PacketUtil.toPacket(bytes);
 			int numberOfPackets = buffer.size();
 			outToServer.writeInt(numberOfPackets);
-			System.out.println("*********************************SENDING TO SERVER*********************************");
+//			System.out.println("*********************************SENDING TO SERVER*********************************");
 			for(int i = 0; i < buffer.size(); i++) {
 				Packet p = buffer.get(i);
 				outToServer.writeInt(p.getSyn());
 				outToServer.writeInt(p.getAck());
 				outToServer.write(p.getBytes(), 0, p.getBytes().length);
-				System.out.println("PACKET SYN # " + p.getSyn());
+//				System.out.println("PACKET SYN # " + p.getSyn());
 				outToServer.flush();
 				int ack = inFromServer.readInt();
-				System.out.print("SERVER ACK # " + ack);
+//				System.out.print("SERVER ACK # " + ack);
 				if(ack != p.getSyn() + 1) {
-					System.out.println(" MISMATCH ERROR! RE-SENDING PACKET SYN # " + p.getSyn());
+//					System.out.println(" MISMATCH ERROR! RE-SENDING PACKET SYN # " + p.getSyn());
 					i--;
 					outToServer.writeInt(1);
 				}else {
@@ -115,8 +116,8 @@ public class TCPClient implements Runnable{
 			e.printStackTrace();
 		}
 	}
-	
-	public void handshake() throws IOException {
+
+	public synchronized void handshake() throws IOException {
 		boolean connected = false;
 		DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
 		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -137,9 +138,18 @@ public class TCPClient implements Runnable{
 		}
 		outToServer.flush();
 	}
-	
-	public BlackJackGame getBJG() {
+
+	public void start() {
+		tclient = new Thread(this, "client");
+		tclient.start();
+	}
+
+	public synchronized BlackJackGame getBJG() {
 		return bjg;
+	}
+
+	public void setSent(boolean sent) {
+		this.sent = sent;
 	}
 
 
@@ -151,7 +161,7 @@ public class TCPClient implements Runnable{
 		new Thread(client, "Client").start();
 		Event join = new JoinEvent(player);
 		client.send(join);
-		
+
 	}
 
 

@@ -20,7 +20,7 @@ import java.awt.Color;
 public class OpponentProfile extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel playerPts, playerWins, gamesPlayed;
+	private JLabel playerPts, playerWins, gamesPlayed, lblOppName;
 	private ImageIcon man = new ImageIcon(getClass().getResource("/man.png"));
 
 	public OpponentProfile() {
@@ -49,11 +49,11 @@ public class OpponentProfile extends JFrame {
 		lblName.setBounds(84, 36, 45, 14);
 		contentPane.add(lblName);
 		
-		JLabel lblNewLabel = new JLabel("John Andrew Ing");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-		lblNewLabel.setBounds(84, 48, 125, 28);
-		contentPane.add(lblNewLabel);
+		lblOppName = new JLabel("A");
+		lblOppName.setForeground(new Color(255, 255, 255));
+		lblOppName.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		lblOppName.setBounds(84, 48, 125, 28);
+		contentPane.add(lblOppName);
 		
 		JLabel lblPoints = new JLabel("Points :");
 		lblPoints.setForeground(new Color(255, 215, 0));
@@ -129,5 +129,13 @@ public class OpponentProfile extends JFrame {
 
 	public void setGamesPlayed(String plays) {
 		gamesPlayed.setText(plays);
+	}
+	
+	public JLabel getLblOppName() {
+		return lblOppName;
+	}
+
+	public void setLblOppName(String name) {
+		lblOppName.setText(name);
 	}
 }

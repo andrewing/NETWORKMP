@@ -25,9 +25,12 @@ public class BlackjackGUI extends JFrame {
 	private JTextField nameTxtField;
 	private JScrollPane scrollPane;
 	private JFormattedTextField betTxtField;
-	private JLabel lblPlayerPoints;
+	private JLabel lblPlayerPoints, lblDealer;
 	private JLabel lblPlayerBet, lblOpponent1Bet, lblOpponent2Bet;
 	private JButton playerAvatar, opponent1Avatar, opponent2Avatar;
+	private JButton btnStart;
+
+	
 
 	public BlackjackGUI() {
 
@@ -78,9 +81,9 @@ public class BlackjackGUI extends JFrame {
 		lblName.setBounds(232, 201, 49, 14);
 		startGamePanel.add(lblName);
 
-		JLabel lblDealer = new JLabel("DEALER");
+		lblDealer = new JLabel("WAITING FOR MORE PLAYERS...");
 		lblDealer.setForeground(new Color(255, 215, 0));
-		lblDealer.setBounds(351, 32, 105, 27);
+		lblDealer.setBounds(256, 32, 288, 27);
 		lblDealer.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		lblDealer.setHorizontalAlignment(SwingConstants.CENTER);
 		inGamePanel.add(lblDealer);	
@@ -245,6 +248,14 @@ public class BlackjackGUI extends JFrame {
 		playerAvatar.setBackground(new Color(46, 139, 87));
 		playerAvatar.setBounds(245, 245, 64, 64);
 		inGamePanel.add(playerAvatar);
+		
+		btnStart = new JButton("Start");
+		btnStart.setEnabled(false);
+		btnStart.setForeground(Color.BLACK);
+		btnStart.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		btnStart.setBackground(new Color(255, 215, 0));
+		btnStart.setBounds(356, 180, 84, 27);
+		inGamePanel.add(btnStart);
 
 	}
 
@@ -261,8 +272,6 @@ public class BlackjackGUI extends JFrame {
 		java.util.List<TitledBorder> tb = new ArrayList<>();
 		for(Object obj: o)
 			tb.add(setBorder(obj));
-		
-		System.out.println("DEBUGlen: " + o.length);
 		
 		if(tb.size()>0)
 		playerTable.setBorder(tb.get(0));
@@ -286,6 +295,20 @@ public class BlackjackGUI extends JFrame {
 		playerTable.add(Box.createRigidArea(new Dimension(1,0)));
 		card.setIcon(new ImageIcon(getClass().getResource(drawedCard)));
 	}
+	
+	public void setOpponent1Table(String drawedCard){
+		JLabel card = new JLabel();
+		opponent1Table.add(card);
+		opponent1Table.add(Box.createRigidArea(new Dimension(1,0)));
+		card.setIcon(new ImageIcon(getClass().getResource(drawedCard)));
+	}
+	
+	public void setOpponent2Table(String drawedCard){
+		JLabel card = new JLabel();
+		opponent2Table.add(card);
+		opponent2Table.add(Box.createRigidArea(new Dimension(1,0)));
+		card.setIcon(new ImageIcon(getClass().getResource(drawedCard)));
+	}
 	//=========================================================================================	
 	//getters and setters for text fields	
 	public String getBetTxtFieldInput() {
@@ -305,6 +328,13 @@ public class BlackjackGUI extends JFrame {
 
 	public String getOpponent2Bet() {
 		return lblOpponent2Bet.getText();
+	}
+	
+	public void setOpponent1Bet(String bet) {
+		lblOpponent1Bet.setText(bet);
+	}
+	public void setOpponent2Bet(String bet) {
+		lblOpponent2Bet.setText(bet);
 	}
 
 	//player points and bet	
@@ -366,6 +396,10 @@ public class BlackjackGUI extends JFrame {
 		this.addWindowListener(windowListenerForFrame);
 	}
 	
+	public void ButtonStartListener(ActionListener listenerForButtonStart) {
+		btnStart.addActionListener(listenerForButtonStart);
+	}
+	
 	public JButton getHitButton() {
 		return this.hitBtn;
 	}
@@ -381,4 +415,48 @@ public class BlackjackGUI extends JFrame {
 	public JButton getBetButton() {
 		return this.betBtn;
 	}
+
+	public JButton getOpponent1Avatar() {
+		return opponent1Avatar;
+	}
+
+	public void setOpponent1AvatarIcon(String img) {
+		ImageIcon avatar = new ImageIcon(getClass().getResource(img));
+		opponent1Avatar.setIcon(avatar);
+	}
+
+	public JButton getOpponent2Avatar() {
+		return opponent2Avatar;
+	}
+
+	public void setOpponent2AvatarIcon(String img) {
+		ImageIcon avatar = new ImageIcon(getClass().getResource(img));
+		opponent2Avatar.setIcon(avatar);
+	}
+	
+	public JButton getBtnStart() {
+		return btnStart;
+	}
+
+	public void setBtnStart(JButton btnStart) {
+		this.btnStart = btnStart;
+	}
+	
+	public JLabel getLblDealer() {
+		return lblDealer;
+	}
+
+	public void setLblDealerStart() {
+		lblDealer.setText("DEALER");
+	}
+	
+	public JPanel getOpponent1Table() {
+		return opponent1Table;
+	}
+
+	public JPanel getOpponent2Table() {
+		return opponent2Table;
+	}
+
+	
 }

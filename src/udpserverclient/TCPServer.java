@@ -2,17 +2,16 @@ package udpserverclient;
 
 import java.io.*;
 import java.net.*;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import model.BlackJackGame;
 import model.Player;
-
+import java.util.*;
 
 public class TCPServer implements Runnable{
+	private List<Responder> responders;
 	private ServerSocket serverSocket;
 	private Socket connectionSocket;
 	private BlackJackGame bjg;
@@ -22,6 +21,7 @@ public class TCPServer implements Runnable{
 		try {
 			this.bjg = bjg;
 			serverSocket = new ServerSocket(port);
+			responders = new ArrayList<>();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -40,8 +40,11 @@ public class TCPServer implements Runnable{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			new Thread(new Responder(connectionSocket,counter,bjg)).start();
+			Responder r = new Responder(connectionSocket,counter,bjg);
+			synchronized(responders) {
+				responders.add(r);
+			}
+			new Thread(r).start();
 		}
 	}
 	
@@ -68,6 +71,14 @@ public class TCPServer implements Runnable{
 			}
 		}
 		outToClient.flush();
+	}
+	
+	public List<Responder> getResponders() {
+		return responders;
+	}
+
+	public void setResponders(List<Responder> responders) {
+		this.responders = responders;
 	}
 
 	public static void main(String args[]) throws IOException {

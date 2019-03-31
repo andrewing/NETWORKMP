@@ -9,7 +9,7 @@ import event.Event;
 import util.BitUtil;
 
 public class PacketUtil {
-	public static final int FRAME = 50;
+	public static final int FRAME = 127;
 	public static int SYN = 0;
 	public static byte[] combine(List<Packet> buffer) {
 		byte data[] = new byte[buffer.size() * (FRAME + 10)];
