@@ -38,9 +38,9 @@ public class BlackJackGame implements Serializable{
 		this.players = players;
 	}
 	
-	public Player findPlayer(int id) {
+	public Player findPlayer(String name) {
 		for(Player a: players) {
-			if(a.getId() == id) {
+			if(a.getName().equals(name)) {
 				return a;
 			}
 		}

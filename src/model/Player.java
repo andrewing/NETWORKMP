@@ -4,40 +4,22 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Player implements Serializable{
-	private int id;
-	private static int players = 0;
 	private String name;
 	private String imgPath;
 	private int wins;
 	private int games;
 	private int points;
+	private int bet;
 	private List<Card> hand;
 	
 	public Player(String name, String imgPath) {
-		id = players;
-		players++;
 		hand = new ArrayList<>();
 		this.name = name;
 		this.imgPath = imgPath;
 		wins = 0;
 		games = 0;
 		points = 300;
-	}
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public static int getPlayers() {
-		return players;
-	}
-
-	public static void setPlayers(int players) {
-		Player.players = players;
+		bet = 0;
 	}
 
 	public void setAll(Player player) {
@@ -106,7 +88,7 @@ public class Player implements Serializable{
 	}
 	
 	public void hit(Card card) {
-		hand.add(card);
+		hand.add(0, card);
 	}
 	
 	public boolean stand() {
@@ -119,8 +101,9 @@ public class Player implements Serializable{
 
 	public int bet(int bet) {
 		games++;
-		if(this.points > 0) {
+		if(this.points >= bet) {
 			this.points -= bet;
+			this.bet = bet;
 			return bet;
 		}
 		return 0;
@@ -136,7 +119,7 @@ public class Player implements Serializable{
 		int aces = 0;
 		for(int i=0; i<hand.size(); i++) {
 			String face = hand.get(i).getFace();
-			if(face == "A") {
+			if(face.equalsIgnoreCase("A")) {
 				aces++;
 			}else {
 				sum += Integer.parseInt(face);
@@ -153,10 +136,6 @@ public class Player implements Serializable{
 		return sum;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		return this.id == ((Player)obj).id;
-	}
 	
 	/*test*/
 	public static void main(String[] args) {

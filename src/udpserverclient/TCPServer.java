@@ -3,6 +3,7 @@ package udpserverclient;
 import java.io.*;
 import java.net.*;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +17,7 @@ public class TCPServer implements Runnable{
 	private Socket connectionSocket;
 	private BlackJackGame bjg;
 	private volatile boolean exit = false;
+	private static int counter = 0;
 	public TCPServer(int port, BlackJackGame bjg) {
 		try {
 			this.bjg = bjg;
@@ -30,12 +32,15 @@ public class TCPServer implements Runnable{
 		int counter = 0;
 		while(!exit) {
 			counter++;
+			TCPServer.counter = counter;
 			try {
 				connectionSocket = serverSocket.accept();
+				handshake();
 				System.out.println("CLIENT # [" +counter+ "] ACCEPTED");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 			new Thread(new Responder(connectionSocket,counter,bjg)).start();
 		}
 	}
@@ -44,6 +49,27 @@ public class TCPServer implements Runnable{
 		exit = true;
 	}
 	
+	public void handshake() throws IOException {
+		BufferedReader inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+		DataOutputStream outToClient = new DataOutputStream(connectionSocket.getOutputStream());
+		boolean connected = false;
+		while(!connected) {
+			int synFromClient = inFromClient.read();
+			System.out.println("RECEIVED FROM CLIENT # [" + counter + "]: SYN # " + synFromClient);
+			int synServer = new Random().nextInt(127);
+			int ackToClient = synFromClient + 1;
+			outToClient.write(ackToClient);
+			outToClient.write(synServer);
+			System.out.println("SENDING TO CLIENT # [" + counter + "]: SYN # " + synServer + " / ACK # " + ackToClient);
+			int ackFromClient = inFromClient.read();
+			System.out.println("RECEIVED FROM CLIENT # [" + counter + "]: ACK # " + ackFromClient);
+			if(ackFromClient == synServer + 1){
+				connected = true;
+			}
+		}
+		outToClient.flush();
+	}
+
 	public static void main(String args[]) throws IOException {
 //		String clientSentence;
 //		String capitalizedSentence;
@@ -69,17 +95,7 @@ public class TCPServer implements Runnable{
 		BlackJackGame bjg = new BlackJackGame();
 		TCPServer ser = new TCPServer(5000, bjg);
 		new Thread(ser, "server").start();
-		try {
-			TimeUnit.MILLISECONDS.sleep(10000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		
-		System.out.println(bjg.getPlayers().size());
-		for(Player a: bjg.getPlayers()){
-			System.out.println(a.getName());
-			System.out.println(a.getPoints());
-		}
 	}
 
 	

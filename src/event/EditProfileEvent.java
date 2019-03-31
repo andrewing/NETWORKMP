@@ -5,25 +5,28 @@ import model.Player;
 
 public class EditProfileEvent extends Event{
 	private Player player;
-	public EditProfileEvent(Player player) {
+	private String img;
+	public EditProfileEvent(Player player, String img) {
 		this.player = player;
+		this.img = img;
 	}
 	
 	
 	@Override
 	public void execute(BlackJackGame bjg) {
-		Player old = bjg.findPlayer(player.getId());
-		old.setAll(player);
+		Player p = bjg.findPlayer(player.getName());
+		p.setImgPath(img);
 	}
 
 	@Override
 	public void set(BlackJackGame bjg) {
-	
+		
 	}
 
 	@Override
 	public void statusPrint() {
-		// TODO Auto-generated method stub
+		System.out.println(player.getName() + " CHANGED AVATAR");
+		
 		
 	}
 	

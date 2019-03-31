@@ -21,12 +21,11 @@ public class BlackjackGUI extends JFrame {
 	public JPanel mainPanel ,startGamePanel, inGamePanel;
 	public JButton btnStartGame;
 	private JPanel playerTable, opponent1Table, opponent2Table, dealerTable;
-	private JButton hitBtn,standBtn,addBetBtn,lowerBetBtn;
+	private JButton hitBtn,standBtn,addBetBtn,lowerBetBtn,betBtn;;
 	private JTextField nameTxtField;
 	private JScrollPane scrollPane;
 	private JFormattedTextField betTxtField;
 	private JLabel lblPlayerPoints;
-	private JButton betBtn;
 	private JLabel lblPlayerBet, lblOpponent1Bet, lblOpponent2Bet;
 	private JButton playerAvatar, opponent1Avatar, opponent2Avatar;
 
@@ -201,25 +200,25 @@ public class BlackjackGUI extends JFrame {
 		inGamePanel.add(label_3);
 
 		//labels to be modified
-		lblPlayerPoints = new JLabel("300");
+		lblPlayerPoints = new JLabel("0");
 		lblPlayerPoints.setForeground(Color.WHITE);
 		lblPlayerPoints.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblPlayerPoints.setBounds(334, 368, 54, 14);
 		inGamePanel.add(lblPlayerPoints);
 
-		lblPlayerBet = new JLabel("300");
+		lblPlayerBet = new JLabel("0");
 		lblPlayerBet.setForeground(Color.WHITE);
 		lblPlayerBet.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblPlayerBet.setBounds(486, 369, 54, 14);
 		inGamePanel.add(lblPlayerBet);
 
-		lblOpponent1Bet = new JLabel("300");
+		lblOpponent1Bet = new JLabel("0");
 		lblOpponent1Bet.setForeground(Color.WHITE);
 		lblOpponent1Bet.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblOpponent1Bet.setBounds(192, 230, 54, 14);
 		inGamePanel.add(lblOpponent1Bet);
 
-		lblOpponent2Bet = new JLabel("300");
+		lblOpponent2Bet = new JLabel("0");
 		lblOpponent2Bet.setForeground(Color.WHITE);
 		lblOpponent2Bet.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblOpponent2Bet.setBounds(659, 229, 54, 14);
@@ -262,6 +261,9 @@ public class BlackjackGUI extends JFrame {
 		java.util.List<TitledBorder> tb = new ArrayList<>();
 		for(Object obj: o)
 			tb.add(setBorder(obj));
+		
+		System.out.println("DEBUGlen: " + o.length);
+		
 		if(tb.size()>0)
 		playerTable.setBorder(tb.get(0));
 		if(tb.size() > 1)
@@ -273,10 +275,9 @@ public class BlackjackGUI extends JFrame {
 
 	public TitledBorder setBorder(Object o) {
 		Player player = (Player)o;
-		if(player!=null)
-			return new TitledBorder(BorderFactory.createLoweredBevelBorder(), player.getName(), TitledBorder.ABOVE_TOP,
-					TitledBorder.CENTER, new Font("Segoe UI", Font.PLAIN, 13), Color.WHITE);
-		return null;
+		System.out.println(player.getName());
+		return new TitledBorder(BorderFactory.createLoweredBevelBorder(), player.getName(), TitledBorder.ABOVE_TOP,
+				TitledBorder.CENTER, new Font("Segoe UI", Font.PLAIN, 13), Color.WHITE);
 	}
 
 	public void setPlayerTable(String drawedCard){
@@ -284,7 +285,6 @@ public class BlackjackGUI extends JFrame {
 		playerTable.add(card);
 		playerTable.add(Box.createRigidArea(new Dimension(1,0)));
 		card.setIcon(new ImageIcon(getClass().getResource(drawedCard)));
-		System.out.println(drawedCard);
 	}
 	//=========================================================================================	
 	//getters and setters for text fields	
@@ -364,5 +364,21 @@ public class BlackjackGUI extends JFrame {
 	
 	public void FrameWindowListener(WindowListener windowListenerForFrame) {
 		this.addWindowListener(windowListenerForFrame);
+	}
+	
+	public JButton getHitButton() {
+		return this.hitBtn;
+	}
+	
+	public JButton getStandButton() {
+		return this.standBtn;
+	}
+	
+	public JLabel getBetLabel() {
+		return this.lblPlayerBet;
+	}
+	
+	public JButton getBetButton() {
+		return this.betBtn;
 	}
 }

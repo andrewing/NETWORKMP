@@ -31,7 +31,7 @@ public class HitEvent extends Event{
 	
 	@Override
 	public void execute(BlackJackGame bjg) {
-		Player p = bjg.findPlayer(this.player.getId());
+		Player p = bjg.findPlayer(this.player.getName());
 		p.hit(card);
 	}
 
@@ -39,11 +39,11 @@ public class HitEvent extends Event{
 
 	@Override
 	public void set(BlackJackGame bjg) {
-		card = bjg.getDealer().deal();
+		this.card = bjg.getDealer().deal();
 	}
 
 	@Override
 	public void statusPrint() {
-		System.out.println("HIT EVENT");
+		System.out.println("PLAYER: " + player.getName() + " GOT " + card.getFace() + card.getSuit());
 	}
 }

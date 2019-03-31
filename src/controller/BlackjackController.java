@@ -3,10 +3,13 @@ package controller;
 
 import javax.swing.*;
 
+import event.BetEvent;
+import event.EditProfileEvent;
 import event.Event;
 import event.HitEvent;
 import event.JoinEvent;
 import model.BlackJackGame;
+import model.Card;
 import model.Player;
 import udpserverclient.TCPClient;
 import view.*;
@@ -48,7 +51,7 @@ public class BlackjackController {
 		this.blackjackView.PlayerAvatarListener(new ListenerForPlayerAvatar());
 		this.blackjackView.Opponent1AvatarListener(new ListenerForOpponent1Avatar());
 		this.blackjackView.Opponent2AvatarListener(new ListenerForOpponent2Avatar());
-
+		
 	}
 
 	class ListenerForStartGameBtn implements ActionListener{
@@ -65,10 +68,21 @@ public class BlackjackController {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			
-			System.out.println(client.getBJG().getPlayers().size());
+			player = client.getBJG().findPlayer(player.getName());
 			blackjackView.setBorder(client.getBJG().getPlayers().toArray());
-			System.out.println("JOIN");
+			blackjackView.setPlayerPoints(""+player.getPoints());
+			
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				
+				@Override
+				public void run() {
+					if(client.getBJG().getPlayers().size() < 3)
+						client.send(join);
+					
+					blackjackView.setBorder(client.getBJG().getPlayers().toArray());
+				}
+			}, 1000, 5000);
 		}
 	}
 
@@ -79,23 +93,32 @@ public class BlackjackController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			client.send(new JoinEvent(player));
+			
+			client.send(new HitEvent(player));
 			try {
 				TimeUnit.MILLISECONDS.sleep(100);
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
+			Player p = client.getBJG().findPlayer(player.getName());
+			Card c = p.getHand().get(0);
+			blackjackView.setPlayerTable("/"+c.getFace()+c.getSuit()+".png");
 			
-			blackjackView.setBorder(client.getBJG().getPlayers().toArray());
-			DrawedCard draw = new DrawedCard();
-			blackjackView.setPlayerTable(draw.getDrawedCard());
-
+			if(p.totalValue() > 21) {
+				blackjackView.getHitButton().setEnabled(false);
+				blackjackView.getStandButton().setEnabled(false);
+				blackjackView.getBetButton().setEnabled(false);
+				blackjackView.getBetLabel().setText("BUSTED");
+			}
+			
 		}
 	}
 
 	class ListenerForStandBtn implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			blackjackView.getHitButton().setEnabled(false);
+			blackjackView.getStandButton().setEnabled(false);
 		}
 
 	}
@@ -115,7 +138,6 @@ public class BlackjackController {
 	}
 
 	class ListenerForLowerBetBtn implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int val = Integer.parseInt(blackjackView.getBetTxtFieldInput());
@@ -131,7 +153,16 @@ public class BlackjackController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			int bet = Integer.parseInt(blackjackView.getBetTxtFieldInput());
+			client.send(new BetEvent(bet, player));
+			
+			try {
+				TimeUnit.MILLISECONDS.sleep(100);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			blackjackView.setPlayerPoints(""+player.getPoints());
+			blackjackView.setPlayerBet(""+bet);
 		}
 	}
 	//===============================================================================================	
@@ -144,6 +175,7 @@ public class BlackjackController {
 			profile.setVisible(true);
 			profile.editBtnListener(new ListenerForEditBtn());
 			avatars.iconListeners(new ListenerForIcons());
+			profile.setAvatar(player.getImgPath());
 		}
 	}
 
@@ -174,32 +206,34 @@ public class BlackjackController {
 	class ListenerForIcons implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			String img = "/greed.png";
 			if(e.getActionCommand().equalsIgnoreCase("icon1")) {
-				String img = "/man.png";
+				img = "/man.png";
 				profile.setAvatar(img);
 				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}else if(e.getActionCommand().equalsIgnoreCase("icon2")) {
-				String img = "/woman.png";
+				img = "/woman.png";
 				profile.setAvatar(img);
 				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}else if(e.getActionCommand().equalsIgnoreCase("icon3")) {
-				String img = "/man2.png";
+				img = "/man2.png";
 				profile.setAvatar(img);
 				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}else if(e.getActionCommand().equalsIgnoreCase("icon4")) {
-				String img = "/woman2.png";
+				img = "/woman2.png";
 				profile.setAvatar(img);
 				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}else {
-				String img = "/greed.png";
+				img = "/greed.png";
 				profile.setAvatar(img);
 				blackjackView.setTableAvatar(img);
 				avatars.dispose();
 			}
+			client.send(new EditProfileEvent(player, img));
 		}	
 	}
 	

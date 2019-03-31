@@ -13,8 +13,8 @@ public class BetEvent extends Event{
 	
 	@Override
 	public void execute(BlackJackGame bjg) {
-		player = bjg.findPlayer(player.getId());
-		player.bet(bet);
+		player = bjg.findPlayer(player.getName());
+		bet = player.bet(bet);
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class BetEvent extends Event{
 	@Override
 	public void statusPrint() {
 
-		System.out.println("BET EVENT");
+		System.out.println(player.getName() + " BETS " + bet + " POINTS");
 	}
 
 	

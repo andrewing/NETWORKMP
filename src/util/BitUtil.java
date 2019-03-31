@@ -26,7 +26,7 @@ public class BitUtil {
 				bos.close();
 			} catch (IOException ex) {
 				ex.printStackTrace();
-			}
+			} 
 		}
 		return bytes;
 	}

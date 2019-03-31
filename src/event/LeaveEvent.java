@@ -12,7 +12,7 @@ public class LeaveEvent extends Event{
 	
 	@Override
 	public void execute(BlackJackGame bjg) {
-		player = bjg.findPlayer(player.getId());
+		player = bjg.findPlayer(player.getName());
 		bjg.getPlayers().remove(player);
 	}
 

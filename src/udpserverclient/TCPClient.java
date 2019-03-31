@@ -2,8 +2,6 @@ package udpserverclient;
 
 import java.io.*;
 import java.net.*;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import event.BetEvent;
@@ -14,31 +12,65 @@ import event.JoinEvent;
 import event.LeaveEvent;
 import model.BlackJackGame;
 import model.Player;
-
+import util.BitUtil;
+import java.util.*;
 public class TCPClient implements Runnable{
-	private static final long delay = 2000L;
+	private List<Packet> buffer;
 	private Socket socket;
 	private String ip;
-	private int port;
+	private int port; 
 	private BlackJackGame bjg;
 	private volatile boolean exit = false;
+	private volatile boolean sent = false;
+
 	public TCPClient(String ip, int port,BlackJackGame bjg) {
 		this.bjg = bjg;
 		this.ip = ip;
 		this.port = port;
-		try {
+		try {	
 			this.socket = new Socket(InetAddress.getByName(ip), port);
+			handshake();
+			buffer = new ArrayList<>();
 		} catch (IOException e) {
 		}
 	}
 	public void run() {
+		
 		while(!exit) {
+			while(!sent) {
+				
+			}
+			sent = false;
 			try {
-				ObjectInputStream inFromServer = new ObjectInputStream(socket.getInputStream());
-				Event event =(Event)inFromServer.readObject();
+				DataInputStream inFromServer = new DataInputStream(socket.getInputStream());
+				DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+				int numPackets = inFromServer.readInt();
+				System.out.println("*********************************PLACED INTO BUFFER*********************************");
+				while(numPackets > 0) { 
+					byte[] chunks = new byte[PacketUtil.FRAME];
+					
+					int syn = inFromServer.readInt();
+					int ack = inFromServer.readInt();
+					inFromServer.read(chunks, 0, chunks.length);
+					Packet p = new Packet(chunks, syn, syn+1);
+					buffer.add(p);
+					System.out.println("PACKET SYN: " + p.getSyn());
+					outToServer.writeInt(p.getAck());
+					numPackets += inFromServer.readInt();
+					numPackets--;
+				}	
+				Collections.sort(buffer);
+				
+				byte[] data = PacketUtil.combine(buffer);
+				Object o = BitUtil.toObject(data);
+				Event event = (Event) o;
+				event.statusPrint();
 				event.execute(bjg);
-				System.out.println("CLIENT EXECUTE");
-			}catch(IOException | ClassNotFoundException e) {
+				buffer.clear();
+				System.out.println("*******************************DATA PROCESSED SUCCESSFULLY*******************************");
+
+				
+			}catch(IOException  e) {
 				e.printStackTrace();
 			}
 		}
@@ -50,25 +82,65 @@ public class TCPClient implements Runnable{
 
 	public void send(Event event) {
 		try {
-			ObjectOutputStream outToServer = new ObjectOutputStream(socket.getOutputStream());
-			
-			outToServer.writeObject(event);
+			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+			DataInputStream inFromServer = new DataInputStream(socket.getInputStream());
+			byte[] bytes = BitUtil.toBytes(event);
+			System.out.println(bytes.length);
+			buffer = PacketUtil.toPacket(bytes);
+			int numberOfPackets = buffer.size();
+			outToServer.writeInt(numberOfPackets);
+			System.out.println("*********************************SENDING TO SERVER*********************************");
+			for(int i = 0; i < buffer.size(); i++) {
+				Packet p = buffer.get(i);
+				outToServer.writeInt(p.getSyn());
+				outToServer.writeInt(p.getAck());
+				outToServer.write(p.getBytes(), 0, p.getBytes().length);
+				System.out.println("PACKET SYN # " + p.getSyn());
+				outToServer.flush();
+				int ack = inFromServer.readInt();
+				System.out.print("SERVER ACK # " + ack);
+				if(ack != p.getSyn() + 1) {
+					System.out.println(" MISMATCH ERROR! RE-SENDING PACKET SYN # " + p.getSyn());
+					i--;
+					outToServer.writeInt(1);
+				}else {
+					System.out.println();
+					outToServer.writeInt(0);
+				}
+			}
 			outToServer.flush();
-			event.statusPrint();
+			buffer.clear();
+			sent = true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
 	
+	public void handshake() throws IOException {
+		boolean connected = false;
+		DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+		BufferedReader inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		while(!connected) {
+			int synClient = new Random().nextInt(127);
+			outToServer.write(synClient);
+			System.out.println("SENDING TO SERVER: SYN # " + synClient);
+			int ackServer = inFromServer.read();
+			System.out.print("RECEIVED FROM SERVER: ACK # "+ ackServer);
+			if(ackServer == synClient + 1) {
+				connected = true;
+				int synServer = inFromServer.read();
+				System.out.println(" / SYN # " + synServer);
+				int ackClient = synServer + 1;
+				System.out.println("SENDING TO SERVER: ACK # " + ackClient);
+				outToServer.write(ackClient);
+			}
+		}
+		outToServer.flush();
+	}
 	
 	public BlackJackGame getBJG() {
 		return bjg;
 	}
-
-
-
-
 
 
 	public static void main(String args[]) throws UnknownHostException, IOException, InterruptedException {
@@ -79,23 +151,7 @@ public class TCPClient implements Runnable{
 		new Thread(client, "Client").start();
 		Event join = new JoinEvent(player);
 		client.send(join);
-		//		TimeUnit.MILLISECONDS.sleep(5000);
-//		player.setName("Rae");
-		Event edit = new EditProfileEvent(player);
-//		client.send(edit);
-		//		TimeUnit.MILLISECONDS.sleep(5000);
-
-		//		Event leave = new LeaveEvent(player);
-		//		client.send(leave);
-//		Event bet = new BetEvent(20, player);
-//		client.send(bet);
-		TimeUnit.MILLISECONDS.sleep(2000);
-
-		System.out.println(bjg.getPlayers().size());
-		for(Player a: bjg.getPlayers()){
-			System.out.println(a.getName());
-			System.out.println(a.getPoints());
-		}
+		
 	}
 
 
