@@ -88,6 +88,8 @@ public class BlackjackController {
 					initOpponents();
 				}
 			}, 0, 2500);
+			
+			blackjackView.getlblTotalPot().setVisible(false);
 		}
 
 		private void initPlayer() {
@@ -179,6 +181,8 @@ public class BlackjackController {
 			blackjackView.getBtnStart().setVisible(false);
 			blackjackView.getHitButton().setVisible(true);
 			blackjackView.getStandButton().setVisible(true);
+			blackjackView.getlblTotalPot().setVisible(true);
+			blackjackView.getlblPotValue().setVisible(true);
 		}
 
 	}
@@ -254,6 +258,8 @@ public class BlackjackController {
 
 			blackjackView.setPlayerPoints(""+player.getPoints());
 			blackjackView.setPlayerBet(""+player.getBet());
+			blackjackView.getlblPotValue().setText("" + client.getBJG().getPot());
+			
 			blackjackView.getBtnStart().setVisible(true);
 			blackjackView.getBtnStart().setEnabled(true);
 			blackjackView.getBetButton().setEnabled(false);
