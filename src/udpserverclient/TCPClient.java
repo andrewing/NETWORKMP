@@ -84,7 +84,7 @@ public class TCPClient implements Runnable{
 			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
 			DataInputStream inFromServer = new DataInputStream(socket.getInputStream());
 			byte[] bytes = BitUtil.toBytes(event);
-			System.out.println(bytes.length);
+//			System.out.println(bytes.length);
 			buffer = PacketUtil.toPacket(bytes);
 			int numberOfPackets = buffer.size();
 			outToServer.writeInt(numberOfPackets);
@@ -111,15 +111,16 @@ public class TCPClient implements Runnable{
 			outToServer.flush();
 			buffer.clear();
 			sent = true;
-		} catch (IOException e) {
+			TimeUnit.MILLISECONDS.sleep(200);
+			
+		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
-		try {
-			TimeUnit.MILLISECONDS.sleep(100);
+/*		try {
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-	}
+*/	}
 
 	public synchronized void handshake() throws IOException {
 		boolean connected = false;

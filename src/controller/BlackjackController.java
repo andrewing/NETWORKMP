@@ -210,17 +210,37 @@ public class BlackjackController {
 					client.send(new WinEvent(player, client.getBJG().getPot()));
 					client.send(new ResetEvent(client.getBJG().getPlayers()));
 				}
-				blackjackView.getPlayerTable().removeAll();
-				blackjackView.getPlayerTable().revalidate();
-				blackjackView.getPlayerTable().revalidate();
-				blackjackView.getOpponent1Table().removeAll();
-				blackjackView.getOpponent1Table().revalidate();
-				blackjackView.getOpponent1Table().repaint();
-				blackjackView.getOpponent2Table().removeAll();
-				blackjackView.getOpponent2Table().revalidate();
-				blackjackView.getOpponent2Table().repaint();
+				
+				
+				reset();
+				
 			}
 		}
+		
+		private void reset() {
+			blackjackView.getPlayerTable().removeAll();
+			blackjackView.getPlayerTable().revalidate();
+			blackjackView.getPlayerTable().revalidate();
+			blackjackView.getOpponent1Table().removeAll();
+			blackjackView.getOpponent1Table().revalidate();
+			blackjackView.getOpponent1Table().repaint();
+			blackjackView.getOpponent2Table().removeAll();
+			blackjackView.getOpponent2Table().revalidate();
+			blackjackView.getOpponent2Table().repaint();
+			
+			blackjackView.getHitButton().setVisible(false);
+			blackjackView.getStandButton().setVisible(false);
+			blackjackView.getBtnStart().setVisible(false);
+			blackjackView.getlblTotalPot().setVisible(false);
+
+			blackjackView.getHitButton().setEnabled(true);
+			blackjackView.getStandButton().setEnabled(true);
+			blackjackView.getBtnStart().setEnabled(true);
+			blackjackView.getlblTotalPot().setEnabled(true);
+			blackjackView.getBetButton().setEnabled(true);
+			
+		}
+		
 	}
 
 
