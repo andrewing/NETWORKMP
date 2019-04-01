@@ -15,11 +15,9 @@ public class UpdateEvent extends Event{
 
 	public void execute(BlackJackGame bjg) {
 		for(Player o: opponents) {
-			boolean exists = false;
 			for(Player p: bjg.getPlayers()) {
 				if(o.getName().equals(p.getName())) {
 					p.setAll(o);
-					exists = true;
 				}
 			}
 		}
@@ -27,11 +25,9 @@ public class UpdateEvent extends Event{
 
 	public void set(BlackJackGame bjg) {
 		for(Player p: bjg.getPlayers()) {
-			boolean exists = false;
 			for(Player o: opponents) {
 				if(p.getName().equals(o.getName())) {
 					o.setAll(p);
-					exists = true;
 				}
 			}
 		}

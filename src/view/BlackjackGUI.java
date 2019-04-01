@@ -21,10 +21,13 @@ public class BlackjackGUI extends JFrame {
 	public JPanel mainPanel ,startGamePanel, inGamePanel;
 	public JButton btnStartGame;
 	private JPanel playerTable, opponent1Table, opponent2Table, dealerTable;
+	
 	private JButton hitBtn,standBtn,addBetBtn,lowerBetBtn,betBtn;;
 	private JTextField nameTxtField;
 	private JScrollPane scrollPane, scrollPane1, scrollPane2;
 	private JFormattedTextField betTxtField;
+	
+
 	private JLabel lblPlayerPoints, lblDealer;
 	private JLabel lblPlayerBet, lblOpponent1Bet, lblOpponent2Bet;
 	private JLabel lblTotalPot, lblPotValue;
@@ -169,7 +172,7 @@ public class BlackjackGUI extends JFrame {
 		betBtn.setBackground(new Color(255, 215, 0));
 		inGamePanel.add(betBtn);
 
-		betTxtField = new JFormattedTextField("0");
+		betTxtField = new JFormattedTextField("50");
 		betTxtField.setBounds(476, 325, 45, 27);
 		betTxtField.setBackground(new Color(0, 153, 102));
 		betTxtField.setForeground(Color.WHITE);
@@ -509,4 +512,25 @@ public class BlackjackGUI extends JFrame {
 	public JPanel getOpponent2Table() {
 		return opponent2Table;
 	}
+	
+	public JButton getAddBetBtn() {
+		return addBetBtn;
+	}
+
+	public JButton getLowerBetBtn() {
+		return lowerBetBtn;
+	}
+
+	public JFormattedTextField getBetTxtField() {
+		return betTxtField;
+	}
+	
+	public JPanel getPlayerTable() {
+		return playerTable;
+	}
+
+	public void setPlayerTable(JPanel playerTable) {
+		this.playerTable = playerTable;
+	}
+
 }

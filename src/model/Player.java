@@ -13,6 +13,8 @@ public class Player implements Serializable{
 	private int handCount;
 	private boolean turn;
 	private boolean stand;
+	
+
 	private List<Card> hand;
 	
 	public Player(String name, String imgPath) {
@@ -39,11 +41,21 @@ public class Player implements Serializable{
 		this.bet = player.getBet();
 		this.turn = player.isTurn();
 		this.handCount = player.getHandCount();
+		this.stand = player.isStand();
+	}
+
+	public boolean isStand() {
+		return stand;
+	}
+
+
+	public void setStand(boolean stand) {
+		this.stand = stand;
 	}
 
 	
 	public int getHandCount() {
-		return handCount;
+		return hand.size();
 	}
 
 	public boolean isTurn() {
@@ -128,7 +140,7 @@ public class Player implements Serializable{
 	}
 	
 	public void reset() {
-		hand.removeAll(hand);
+		hand.clear();
 		turn = false;
 		stand = false;
 		bet = 0;
@@ -136,7 +148,7 @@ public class Player implements Serializable{
 
 	public int bet(int bet) {
 		games++;
-		if(this.points >= bet) {
+		if(this.points >= bet && bet >= 50) {
 			this.points -= bet;
 			this.bet = bet;
 			return bet;
@@ -168,7 +180,10 @@ public class Player implements Serializable{
 			}
 			aces--;
 		}
-		return sum;
+		if(sum <= 21)
+			return sum;
+		else
+			return -1;
 	}
 	
 	

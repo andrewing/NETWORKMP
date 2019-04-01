@@ -27,7 +27,7 @@ public class PacketUtil {
 	public static List<Packet> toPacket(byte[] bytes) {
 		List<Packet> buffer = new ArrayList<>();
 		byte[] chunks;
-		System.out.println("*********************************PLACED INTO BUFFER*********************************");
+//		System.out.println("*********************************PLACED INTO BUFFER*********************************");
 		for(int i = 0; i < (int)Math.ceil((double)bytes.length/(double)FRAME); i++) {
 			chunks = new byte[FRAME];
 			for(int j = i*FRAME ; j != bytes.length && j < (i+1)*FRAME; j++) {
@@ -36,7 +36,7 @@ public class PacketUtil {
 			Packet p = new Packet(chunks, SYN * FRAME);
 			SYN++;
 			buffer.add(p);
-			System.out.println("PACKET SYN #: " + p.getSyn());
+//			System.out.println("PACKET SYN #: " + p.getSyn());
 		}
 		if(SYN > Integer.MAX_VALUE - 1024*FRAME) {
 			SYN = 0;

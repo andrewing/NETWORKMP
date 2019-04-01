@@ -46,7 +46,7 @@ public class TCPClient implements Runnable{
 				}
 				sent = false;
 				int numPackets = inFromServer.readInt();
-				System.out.println("*********************************PLACED INTO BUFFER*********************************");
+//				System.out.println("*********************************PLACED INTO BUFFER*********************************");
 				while(numPackets > 0) { 
 					byte[] chunks = new byte[PacketUtil.FRAME];
 
@@ -55,7 +55,7 @@ public class TCPClient implements Runnable{
 					inFromServer.read(chunks, 0, chunks.length);
 					Packet p = new Packet(chunks, syn, syn+1);
 					buffer.add(p);
-					System.out.println("PACKET SYN: " + p.getSyn());
+//					System.out.println("PACKET SYN: " + p.getSyn());
 					outToServer.writeInt(p.getAck());
 					numPackets += inFromServer.readInt();
 					numPackets--;
@@ -67,7 +67,7 @@ public class TCPClient implements Runnable{
 				event.statusPrint();
 				event.execute(bjg);
 				buffer.clear();
-				System.out.println("*******************************DATA PROCESSED SUCCESSFULLY*******************************");
+//				System.out.println("*******************************DATA PROCESSED SUCCESSFULLY*******************************");
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
@@ -88,18 +88,18 @@ public class TCPClient implements Runnable{
 			buffer = PacketUtil.toPacket(bytes);
 			int numberOfPackets = buffer.size();
 			outToServer.writeInt(numberOfPackets);
-			System.out.println("*********************************SENDING TO SERVER*********************************");
+//			System.out.println("*********************************SENDING TO SERVER*********************************");
 			for(int i = 0; i < buffer.size(); i++) {
 				Packet p = buffer.get(i);
 				outToServer.writeInt(p.getSyn());
 				outToServer.writeInt(p.getAck());
 				outToServer.write(p.getBytes(), 0, p.getBytes().length);
-				System.out.println("PACKET SYN # " + p.getSyn());
+//				System.out.println("PACKET SYN # " + p.getSyn());
 				outToServer.flush();
 				int ack = inFromServer.readInt();
-				System.out.print("SERVER ACK # " + ack);
+//				System.out.print("SERVER ACK # " + ack);
 				if(ack != p.getSyn() + 1) {
-					System.out.println(" MISMATCH ERROR! RE-SENDING PACKET SYN # " + p.getSyn());
+//					System.out.println(" MISMATCH ERROR! RE-SENDING PACKET SYN # " + p.getSyn());
 					i--;
 					outToServer.writeInt(1);
 				}else {
