@@ -27,12 +27,15 @@ public class UpdateEvent extends Event{
 
 	public void set(BlackJackGame bjg) {
 		for(Player p: bjg.getPlayers()) {
+			boolean exists = false;
 			for(Player o: opponents) {
 				if(p.getName().equals(o.getName())) {
 					o.setAll(p);
-//					o.setBet(p.getBet());
-//					o.setImgPath(p.getImgPath());
+					exists = true;
 				}
+			}
+			if(!exists) {
+				
 			}
 		}
 	}
