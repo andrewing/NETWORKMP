@@ -148,7 +148,7 @@ public class Player implements Serializable{
 
 	public int bet(int bet) {
 		games++;
-		if(this.points >= bet && bet >= 50) {
+		if(this.points >= bet && bet > 0) {
 			this.points -= bet;
 			this.bet = bet;
 			return bet;

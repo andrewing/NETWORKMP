@@ -19,6 +19,9 @@ public class ResetEvent extends Event{
 		for(Player p: players) {
 			Player pbjg = bjg.findPlayer(p.getName());
 			pbjg.reset();
+			if(pbjg.getPoints() < 0) {
+				pbjg.setStand(true);
+			}
 		}
 	}
 

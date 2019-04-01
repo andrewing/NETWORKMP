@@ -64,8 +64,6 @@ public class BlackjackController {
 		blackjackView.getlblTotalPot().setVisible(false);
 		blackjackView.getlblPotValue().setVisible(false);
 
-
-		
 		blackjackView.getBetButton().setVisible(false);
 		blackjackView.getAddBetBtn().setVisible(false);
 		blackjackView.getLowerBetBtn().setVisible(false);
@@ -149,7 +147,7 @@ public class BlackjackController {
 				oppProfile2.setPlayerPts(""+opp2.getPoints());
 				oppProfile2.setPlayerWins(""+opp2.getWins());
 				oppProfile2.setGamesPlayed(""+opp2.getGames());
-				
+
 				blackjackView.getOpponent1Table().removeAll();
 				blackjackView.getOpponent1Table().revalidate();
 				blackjackView.getOpponent1Table().repaint();
@@ -160,13 +158,13 @@ public class BlackjackController {
 				int cmpCount = blackjackView.getOpponent1Table().getComponentCount();
 				for(int i = 0; i < bjg.getPlayers().get(1).getHandCount() - cmpCount;i++) {
 					blackjackView.setOpponent1Table("/COVER.png");
-					
+
 				}
 				cmpCount = blackjackView.getOpponent2Table().getComponentCount();
 				for(int i = 0; i < opp2.getHandCount() - cmpCount; i++) {
 					blackjackView.setOpponent2Table("/COVER.png");
 				}
-				
+
 				client.send(new UpdateEvent(bjg.getPlayers().get(0), bjg.getPlayers().get(1), bjg.getPlayers().get(2)));
 			}
 		}
@@ -196,7 +194,7 @@ public class BlackjackController {
 				blackjackView.getOpponent2Table().removeAll();
 				blackjackView.getOpponent2Table().revalidate();
 				blackjackView.getOpponent2Table().repaint();
-				
+
 				Player opp = client.getBJG().getPlayers().get(1);
 				for(int i = 0; i < opp.getHandCount(); i++) {
 					blackjackView.setOpponent1Table("/"+opp.getHand().get(i).getFace()+opp.getHand().get(i).getSuit()+".png");
@@ -218,19 +216,20 @@ public class BlackjackController {
 						winner = p;
 					}
 				}
-				
+
 				if(winner.equals(player)) {
-					JOptionPane.showConfirmDialog(null, "YOU WON " + client.getBJG().getPot(), "" , JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showConfirmDialog(null, "YOU WON " + client.getBJG().getPot(),
+			                   "", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE);
 					client.send(new WinEvent(player, client.getBJG().getPot()));
 					client.send(new ResetEvent(client.getBJG().getPlayers()));
 				}
-				
-				
+
+
 				reset();
-				
+
 			}
 		}
-		
+
 		private void reset() {
 			blackjackView.getPlayerTable().removeAll();
 			blackjackView.getPlayerTable().revalidate();
@@ -241,20 +240,34 @@ public class BlackjackController {
 			blackjackView.getOpponent2Table().removeAll();
 			blackjackView.getOpponent2Table().revalidate();
 			blackjackView.getOpponent2Table().repaint();
-			
+
 			blackjackView.getHitButton().setVisible(false);
 			blackjackView.getStandButton().setVisible(false);
 			blackjackView.getBtnStart().setVisible(false);
 			blackjackView.getlblTotalPot().setVisible(false);
 			blackjackView.getlblPotValue().setVisible(false);
+
+			if(player.getPoints() > 0) {
+				blackjackView.getBetButton().setEnabled(true);
+				blackjackView.getAddBetButton().setEnabled(true);
+				blackjackView.getLowerBetButton().setEnabled(true);
+				blackjackView.getBetTxtField().setEnabled(true);
+			}else {
+				client.send(new StandEvent(player, true));
+			}
 			
-			blackjackView.getBetButton().setEnabled(true);
-			blackjackView.getAddBetButton().setEnabled(true);
-			blackjackView.getLowerBetButton().setEnabled(true);
-			blackjackView.getBetTxtField().setEnabled(true);
+			if(player.getPoints() > 0 
+					&& client.getBJG().getPlayers().get(1).getPoints() == 0 
+					&& client.getBJG().getPlayers().get(2).getPoints() == 0 
+					/*&& client.getBJG().getPlayers().get(1).isStand()
+					&& client.getBJG().getPlayers().get(2).isStand()*/) {
+				JOptionPane.showConfirmDialog(null, "YOU WIN!",
+		                   "", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE);
+			}
+			
 			
 			blackjackView.getLblOpp1Stand().setText("PLAYING...");
-			blackjackView.getLblOpp1Stand().setText("PLAYING...");
+			blackjackView.getLblOpp2Stand().setText("PLAYING...");
 		}
 	}
 
@@ -354,22 +367,24 @@ public class BlackjackController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int bet = Integer.parseInt(blackjackView.getBetTxtFieldInput());
-			client.send(new BetEvent(bet, player));
+			if(player.getPoints() > 0) {
+				int bet = Integer.parseInt(blackjackView.getBetTxtFieldInput());
+				client.send(new BetEvent(bet, player));
 
-			blackjackView.setPlayerPoints(""+player.getPoints());
-			blackjackView.setPlayerBet(""+player.getBet());
+				blackjackView.setPlayerPoints(""+player.getPoints());
+				blackjackView.setPlayerBet(""+player.getBet());
 
-			if(player.getBet() != 0) {
-				blackjackView.getBtnStart().setVisible(true);
-				blackjackView.getAddBetButton().setVisible(false);
-				blackjackView.getLowerBetButton().setVisible(false);
-				blackjackView.getBetTxtField().setVisible(false);
-				
-				blackjackView.getBetButton().setEnabled(false);
-				blackjackView.getAddBetButton().setEnabled(false);
-				blackjackView.getLowerBetButton().setEnabled(false);
-				blackjackView.getBetTxtField().setEnabled(false);
+				if(player.getBet() != 0) {
+					blackjackView.getBtnStart().setVisible(true);
+					blackjackView.getAddBetButton().setVisible(false);
+					blackjackView.getLowerBetButton().setVisible(false);
+					blackjackView.getBetTxtField().setVisible(false);
+
+					blackjackView.getBetButton().setEnabled(false);
+					blackjackView.getAddBetButton().setEnabled(false);
+					blackjackView.getLowerBetButton().setEnabled(false);
+					blackjackView.getBetTxtField().setEnabled(false);
+				}
 			}
 		}
 	}
@@ -388,7 +403,7 @@ public class BlackjackController {
 			profile.setAvatar(player.getImgPath());
 		}
 	}
-	
+
 
 	class ListenerForOpponent1Avatar implements ActionListener {
 		@Override
@@ -431,8 +446,8 @@ public class BlackjackController {
 			}else if(e.getActionCommand().equalsIgnoreCase("icon4")) {
 				img = "/woman2.png";
 			}
-			
-			
+
+
 			profile.setAvatar(img);
 			blackjackView.setTableAvatar(img);
 			avatars.dispose();
