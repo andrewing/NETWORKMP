@@ -40,8 +40,8 @@ public class Responder implements Runnable {
 				Event event = (Event) o;
 				
 				
-				event.execute(bjg);
 				event.set(bjg);
+				event.execute(bjg);
 				event.statusPrint();
 				
 				byte[] bevents = BitUtil.toBytes(event);
