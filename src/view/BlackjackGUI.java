@@ -12,7 +12,9 @@ import java.awt.event.WindowListener;
 
 
 public class BlackjackGUI extends JFrame {
-
+	
+	private ImageIcon dealer = new ImageIcon(getClass().getResource("/dealer.png"));
+	private ImageIcon blackjack = new ImageIcon(getClass().getResource("/blackjack.png"));
 	private ImageIcon profile = new ImageIcon(getClass().getResource("/greed.png"));
 	private ImageIcon addIcon = new ImageIcon(getClass().getResource("/add.png"));
 	private ImageIcon lowerIcon = new ImageIcon(getClass().getResource("/low.png"));
@@ -31,6 +33,7 @@ public class BlackjackGUI extends JFrame {
 	private JLabel lblOpp1Stand, lblOpp2Stand;
 	private JButton playerAvatar, opponent1Avatar, opponent2Avatar;
 	private JButton btnStart;
+	private JLabel blackjackIcon;
 
 	
 
@@ -57,6 +60,7 @@ public class BlackjackGUI extends JFrame {
 		mainPanel.setLayout(cl);
 
 		startGamePanel = new JPanel();
+		startGamePanel.setBackground(new Color(102, 0, 0));
 		mainPanel.add(startGamePanel);
 		startGamePanel.setLayout(null);
 
@@ -67,37 +71,47 @@ public class BlackjackGUI extends JFrame {
 
 		btnStartGame = new JButton("Start Game");
 		btnStartGame.setFont(new Font("Segoe UI Historic", Font.BOLD, 13));
-		btnStartGame.setBounds(310, 225, 123, 23);
+		btnStartGame.setBounds(310, 251, 123, 23);
 		startGamePanel.add(btnStartGame);
 
 
 		JLabel lblBlackjack = new JLabel("BLACKJACK");
+		lblBlackjack.setForeground(Color.WHITE);
+		lblBlackjack.setBackground(new Color(255, 255, 204));
 		lblBlackjack.setHorizontalAlignment(SwingConstants.CENTER);
 		lblBlackjack.setFont(new Font("Yu Gothic Light", Font.BOLD, 30));
-		lblBlackjack.setBounds(270, 139, 190, 49);
+		lblBlackjack.setBounds(270, 158, 190, 49);
 		startGamePanel.add(lblBlackjack);
 
 		JLabel lblName = new JLabel("Name:");
-		lblName.setFont(new Font("Yu Gothic UI", Font.PLAIN, 14));
-		lblName.setBounds(232, 201, 49, 14);
+		lblName.setForeground(Color.WHITE);
+		lblName.setFont(new Font("Yu Gothic UI", Font.BOLD, 16));
+		lblName.setBounds(232, 218, 49, 14);
 		startGamePanel.add(lblName);
 
 		lblDealer = new JLabel("WAITING FOR MORE PLAYERS...");
 		lblDealer.setForeground(new Color(255, 215, 0));
-		lblDealer.setBounds(256, 32, 288, 27);
+		lblDealer.setBounds(256, 11, 288, 27);
 		lblDealer.setFont(new Font("Segoe UI", Font.BOLD, 15));
 		lblDealer.setHorizontalAlignment(SwingConstants.CENTER);
 		inGamePanel.add(lblDealer);	
 
 		nameTxtField = new JTextField();
+		nameTxtField.setForeground(Color.BLACK);
 		nameTxtField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		nameTxtField.setBounds(280, 194, 203, 29);
+		nameTxtField.setBounds(280, 211, 203, 29);
 		nameTxtField.setOpaque(true);
 		nameTxtField.setBackground(Color.LIGHT_GRAY);
 		startGamePanel.add(nameTxtField);
 		nameTxtField.setColumns(10);
+		
+		blackjackIcon = new JLabel();
+		blackjackIcon.setIcon(blackjack);
+		blackjackIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		blackjackIcon.setBounds(310, 30, 128, 128);
+		startGamePanel.add(blackjackIcon);
 
-		//dealer table
+	/*	//dealer table
 		dealerTable = new JPanel();
 		dealerTable.setBorder(BorderFactory.createRaisedBevelBorder());
 		dealerTable.setBackground(new Color(46, 139, 87));
@@ -106,7 +120,7 @@ public class BlackjackGUI extends JFrame {
 		dealerTable.add(Box.createRigidArea(new Dimension(5,0)));
 		dealerTable.setBackground(new Color(46, 139, 87));
 		dealerTable.setBorder(BorderFactory.createRaisedBevelBorder());
-		inGamePanel.add(dealerTable);
+		inGamePanel.add(dealerTable);*/
 
 		//player tables
 		
@@ -296,6 +310,12 @@ public class BlackjackGUI extends JFrame {
 		lblOpp2Stand.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblOpp2Stand.setBounds(670, 140, 85, 14);
 		inGamePanel.add(lblOpp2Stand);
+		
+		JLabel dealerIcon = new JLabel();
+		dealerIcon.setHorizontalAlignment(SwingConstants.CENTER);
+		dealerIcon.setIcon(dealer);
+		dealerIcon.setBounds(216, 37, 370, 107);
+		inGamePanel.add(dealerIcon);
 	}
 
 	public void setTableAvatar(String img) {
