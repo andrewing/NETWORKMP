@@ -27,6 +27,7 @@ public class BlackjackGUI extends JFrame {
 	private JFormattedTextField betTxtField;
 	private JLabel lblPlayerPoints, lblDealer;
 	private JLabel lblPlayerBet, lblOpponent1Bet, lblOpponent2Bet;
+	private JLabel lblTotalPot, lblPotValue;
 	private JButton playerAvatar, opponent1Avatar, opponent2Avatar;
 	private JButton btnStart;
 
@@ -257,7 +258,7 @@ public class BlackjackGUI extends JFrame {
 
 		playerAvatar = new JButton();
 		playerAvatar.setIcon(profile);
-		playerAvatar.setOpaque(true);
+		playerAvatar.setOpaque(true); 
 		playerAvatar.setBackground(new Color(46, 139, 87));
 		playerAvatar.setBounds(245, 245, 64, 64);
 		inGamePanel.add(playerAvatar);
@@ -269,7 +270,18 @@ public class BlackjackGUI extends JFrame {
 		btnStart.setBackground(new Color(255, 215, 0));
 		btnStart.setBounds(356, 180, 84, 27);
 		inGamePanel.add(btnStart);
-
+		
+		lblTotalPot = new JLabel("TOTAL POT");
+		lblTotalPot.setForeground(Color.WHITE);
+		lblTotalPot.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblTotalPot.setBounds(360, 155, 76, 27);
+		inGamePanel.add(lblTotalPot);
+		
+		lblPotValue = new JLabel("");
+		lblPotValue.setForeground(Color.WHITE);
+		lblPotValue.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblPotValue.setBounds(390, 180, 76, 27);
+		inGamePanel.add(lblPotValue);
 	}
 
 	public void setTableAvatar(String img) {
@@ -436,10 +448,26 @@ public class BlackjackGUI extends JFrame {
 		return this.lblPlayerBet;
 	}
 	
+	public JButton getAddBetButton() {
+		return this.addBetBtn;
+	}
+	
 	public JButton getBetButton() {
 		return this.betBtn;
 	}
+	
+	public JButton getLowerBetButton() {
+		return this.lowerBetBtn;
+	}
 
+	public JLabel getlblTotalPot() {
+		return this.lblTotalPot;
+	}
+	
+	public JLabel getlblPotValue() {
+		return this.lblPotValue;
+	}
+	
 	public JButton getOpponent1Avatar() {
 		return opponent1Avatar;
 	}
