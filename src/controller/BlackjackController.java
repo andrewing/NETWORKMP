@@ -278,16 +278,21 @@ public class BlackjackController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			Point p = MouseInfo.getPointerInfo().getLocation();
 			profile.setVisible(true);
+			profile.setLocation(p);
 			profile.editBtnListener(new ListenerForEditBtn());
 			avatars.iconListeners(new ListenerForIcons());
 			profile.setAvatar(player.getImgPath());
 		}
 	}
+	
 
 	class ListenerForOpponent1Avatar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			Point p = MouseInfo.getPointerInfo().getLocation();
+			oppProfile1.setLocation(p);
 			oppProfile1.setVisible(true);
 		}
 	}
@@ -295,6 +300,8 @@ public class BlackjackController {
 	class ListenerForOpponent2Avatar implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			Point p = MouseInfo.getPointerInfo().getLocation();
+			oppProfile2.setLocation(p);
 			oppProfile2.setVisible(true);
 		}
 	}

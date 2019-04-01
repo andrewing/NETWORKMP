@@ -36,7 +36,7 @@ public class BlackjackGUI extends JFrame {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-
+			
 		}
 		catch (Exception e) {}
 
