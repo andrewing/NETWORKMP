@@ -23,7 +23,7 @@ public class BlackjackGUI extends JFrame {
 	private JPanel playerTable, opponent1Table, opponent2Table, dealerTable;
 	private JButton hitBtn,standBtn,addBetBtn,lowerBetBtn,betBtn;;
 	private JTextField nameTxtField;
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPane, scrollPane1, scrollPane2;
 	private JFormattedTextField betTxtField;
 	private JLabel lblPlayerPoints, lblDealer;
 	private JLabel lblPlayerBet, lblOpponent1Bet, lblOpponent2Bet;
@@ -101,24 +101,40 @@ public class BlackjackGUI extends JFrame {
 		dealerTable.setBorder(BorderFactory.createRaisedBevelBorder());
 		dealerTable.setBackground(new Color(46, 139, 87));
 		dealerTable.setBounds(256, 70, 288, 74);
-		dealerTable.setLayout((new FlowLayout(FlowLayout.CENTER)));
+		dealerTable.setLayout(new BoxLayout(dealerTable, BoxLayout.X_AXIS));
+		dealerTable.add(Box.createRigidArea(new Dimension(5,0)));
+		dealerTable.setBackground(new Color(46, 139, 87));
+		dealerTable.setBorder(BorderFactory.createRaisedBevelBorder());
 		inGamePanel.add(dealerTable);
 
 		//player tables
+		
+		scrollPane1 = new JScrollPane();
+		scrollPane1.setBounds(89, 155, 236, 74);
+		scrollPane1.setBackground(new Color(46, 139, 87));
+		scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		inGamePanel.add(scrollPane1);
 		opponent1Table = new JPanel();
-		opponent1Table.setForeground(Color.WHITE);
-		opponent1Table.setBorder(BorderFactory.createRaisedBevelBorder());
+		opponent1Table.setLayout(new BoxLayout(opponent1Table, BoxLayout.X_AXIS));
+		opponent1Table.add(Box.createRigidArea(new Dimension(5,0)));
 		opponent1Table.setBackground(new Color(46, 139, 87));
-		opponent1Table.setBounds(89, 155, 236, 74);
-		opponent1Table.setLayout(new FlowLayout(FlowLayout.CENTER));
-		inGamePanel.add(opponent1Table);
-
+		opponent1Table.setBorder(BorderFactory.createRaisedBevelBorder());
+		scrollPane1.setViewportView(opponent1Table);
+		
+		scrollPane2 = new JScrollPane();
+		scrollPane2.setBounds(520, 155, 236, 74);
+		scrollPane2.setBackground(new Color(46, 139, 87));
+		scrollPane2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		inGamePanel.add(scrollPane2);
 		opponent2Table = new JPanel();
+		opponent2Table.setLayout(new BoxLayout(opponent2Table, BoxLayout.X_AXIS));
+		opponent2Table.add(Box.createRigidArea(new Dimension(5,0)));
 		opponent2Table.setBackground(new Color(46, 139, 87));
 		opponent2Table.setBorder(BorderFactory.createRaisedBevelBorder());
-		opponent2Table.setBounds(520, 155, 236, 74);
-		opponent2Table.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		inGamePanel.add(opponent2Table);
+		scrollPane2.setViewportView(opponent2Table);
+		
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(308, 240, 236, 74);
@@ -457,6 +473,4 @@ public class BlackjackGUI extends JFrame {
 	public JPanel getOpponent2Table() {
 		return opponent2Table;
 	}
-
-	
 }
