@@ -110,9 +110,7 @@ public class BlackjackController {
 				oppProfile1.setPlayerPts(""+opp1.getPoints());
 				oppProfile1.setPlayerWins(""+opp1.getWins());
 				oppProfile1.setGamesPlayed(""+opp1.getGames());
-				
 			}
-
 
 			if(bjg.getPlayers().size() > 2) {
 				Player opp2 = bjg.getPlayers().get(2);
@@ -141,7 +139,6 @@ public class BlackjackController {
 				for(int i = 0; i < opp2.getHandCount(); i++) {
 					blackjackView.setOpponent2Table("/COVER.png");
 				}
-				
 				client.send(new UpdateEvent(bjg.getPlayers().get(1), bjg.getPlayers().get(2)));
 			}
 		}
@@ -210,6 +207,10 @@ public class BlackjackController {
 		public void actionPerformed(ActionEvent e) {
 			blackjackView.getHitButton().setEnabled(false);
 			blackjackView.getStandButton().setEnabled(false);
+			
+			player.stand();
+			player.setTurn(false);
+			
 		}
 
 	}

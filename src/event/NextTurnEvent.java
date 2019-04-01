@@ -3,17 +3,16 @@ package event;
 import model.BlackJackGame;
 import model.Player;
 
-public class LeaveEvent extends Event{
-	private Player player;
-	
-	public LeaveEvent(Player player) {
+public class NextTurnEvent extends Event{
+	Player player;
+	public NextTurnEvent(Player player) {
 		this.player = player;
 	}
 	
 	@Override
 	public void execute(BlackJackGame bjg) {
 		Player p = bjg.findPlayer(player.getName());
-		bjg.getPlayers().remove(p);
+		p.reset();
 	}
 
 	@Override
@@ -23,7 +22,7 @@ public class LeaveEvent extends Event{
 
 	@Override
 	public void statusPrint() {
-		System.out.println("PLAYER " + player.getName() + " LEFT THE GAME");
+		// TODO Auto-generated method stub
 		
 	}
 

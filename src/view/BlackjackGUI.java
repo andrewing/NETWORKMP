@@ -36,9 +36,7 @@ public class BlackjackGUI extends JFrame {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-
-		}
-		catch (Exception e) {}
+		}catch (Exception e) {}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 826, 452);
@@ -50,7 +48,6 @@ public class BlackjackGUI extends JFrame {
 		mainPanel = new JPanel();
 		mainPanel.setBounds(10, 11, 794, 396);
 		contentPane.add(mainPanel);
-
 
 		cl = new CardLayout();
 		mainPanel.setLayout(cl);

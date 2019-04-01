@@ -15,11 +15,11 @@ public class UpdateEvent extends Event{
 
 	public void execute(BlackJackGame bjg) {
 		for(Player o: opponents) {
+			boolean exists = false;
 			for(Player p: bjg.getPlayers()) {
 				if(o.getName().equals(p.getName())) {
 					p.setAll(o);
-//					p.setBet(o.getBet());
-//					p.setImgPath(o.getImgPath());
+					exists = true;
 				}
 			}
 		}
@@ -33,9 +33,6 @@ public class UpdateEvent extends Event{
 					o.setAll(p);
 					exists = true;
 				}
-			}
-			if(!exists) {
-				
 			}
 		}
 	}

@@ -48,7 +48,6 @@ public class BlackJackGame implements Serializable{
 	}
 	
 	public int getPot() {
-		
 		int sum = 0;
 		for(Player p: players){
 			sum += p.getBet();

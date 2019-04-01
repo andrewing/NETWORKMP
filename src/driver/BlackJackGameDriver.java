@@ -13,6 +13,7 @@ public class BlackJackGameDriver {
 		int a = JOptionPane.showOptionDialog(null, "***************************", "",
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 				null, options, options[0]);
+		
 		if(a == 0) {
 			BlackJackGame bjg2 = new BlackJackGame();
 			TCPServer ser = new TCPServer(5000, bjg2);
