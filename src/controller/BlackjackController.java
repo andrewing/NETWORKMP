@@ -8,6 +8,7 @@ import event.EditProfileEvent;
 import event.Event;
 import event.HitEvent;
 import event.JoinEvent;
+import event.LeaveEvent;
 import event.UpdateEvent;
 import model.BlackJackGame;
 import model.Card;
@@ -29,7 +30,6 @@ public class BlackjackController {
 	private OpponentProfile oppProfile1, oppProfile2;
 	private Avatars avatars;
 	private TCPClient client;
-	private int opp1HandCount = 0, opp2HandCount = 0;
 	public BlackjackController(BlackjackGUI gameView, TCPClient client) {
 
 		this.blackjackView = gameView;
@@ -45,12 +45,15 @@ public class BlackjackController {
 		this.blackjackView.FrameWindowListener(new WindowListenerForFrame());
 		this.blackjackView.StartGameBtnListener(new ListenerForStartGameBtn());
 		this.blackjackView.HitBtnListener(new ListenerForHitBtn());
+		blackjackView.getHitButton().setVisible(false);
 		this.blackjackView.StandBtnListener(new ListenerForStandBtn());
+		blackjackView.getStandButton().setVisible(false);
 		this.blackjackView.AddBetBtnListener(new ListenerForAddBetBtn());
 		this.blackjackView.LowerBetBtnListener(new ListenerForLowerBetBtn());
 		this.blackjackView.BetBtnListener(new ListenerForBetBtn());
 		this.blackjackView.ButtonStartListener(new ListenerForButtonStart());
-
+		blackjackView.getBtnStart().setVisible(false);
+		
 		this.blackjackView.PlayerAvatarListener(new ListenerForPlayerAvatar());
 		this.blackjackView.Opponent1AvatarListener(new ListenerForOpponent1Avatar());
 		this.blackjackView.Opponent2AvatarListener(new ListenerForOpponent2Avatar());
@@ -66,11 +69,6 @@ public class BlackjackController {
 			player = new Player(blackjackView.getName(), "/greed.png");
 			Event join = new JoinEvent(player);
 			client.send(join);
-			try {
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
 			player = client.getBJG().findPlayer(player.getName());
 
 			Timer timer = new Timer();
@@ -90,6 +88,8 @@ public class BlackjackController {
 					initOpponents();
 				}
 			}, 0, 2500);
+			
+			blackjackView.getlblTotalPot().setVisible(false);
 		}
 
 		private void initPlayer() {
@@ -115,9 +115,7 @@ public class BlackjackController {
 				oppProfile1.setPlayerPts(""+opp1.getPoints());
 				oppProfile1.setPlayerWins(""+opp1.getWins());
 				oppProfile1.setGamesPlayed(""+opp1.getGames());
-				
 			}
-
 
 			if(bjg.getPlayers().size() > 2) {
 				Player opp2 = bjg.getPlayers().get(2);
@@ -135,6 +133,7 @@ public class BlackjackController {
 				blackjackView.getOpponent1Table().removeAll();
 				blackjackView.getOpponent1Table().revalidate();
 				blackjackView.getOpponent1Table().repaint();
+				
 				blackjackView.getOpponent2Table().removeAll();
 				blackjackView.getOpponent2Table().revalidate();
 				blackjackView.getOpponent2Table().repaint();
@@ -145,9 +144,7 @@ public class BlackjackController {
 				for(int i = 0; i < opp2.getHandCount(); i++) {
 					blackjackView.setOpponent2Table("/COVER.png");
 				}
-				
 				client.send(new UpdateEvent(bjg.getPlayers().get(1), bjg.getPlayers().get(2)));
-				
 			}
 		}
 	}
@@ -159,22 +156,12 @@ public class BlackjackController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			client.send(new HitEvent(player));
-			try {
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
 			Player p = client.getBJG().findPlayer(player.getName());
 			Card c = p.getHand().get(0);
 			blackjackView.setPlayerTable("/"+c.getFace()+c.getSuit()+".png");
 			
 			
 			client.send(new HitEvent(player));
-			try {
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
 			p = client.getBJG().findPlayer(player.getName());
 			c = p.getHand().get(0);
 			blackjackView.setPlayerTable("/"+c.getFace()+c.getSuit()+".png");
@@ -189,6 +176,10 @@ public class BlackjackController {
 			}
 			
 			blackjackView.getBtnStart().setVisible(false);
+			blackjackView.getHitButton().setVisible(true);
+			blackjackView.getStandButton().setVisible(true);
+			blackjackView.getlblTotalPot().setVisible(true);
+			blackjackView.getlblPotValue().setVisible(true);
 		}
 
 	}
@@ -201,11 +192,11 @@ public class BlackjackController {
 		public void actionPerformed(ActionEvent e) {
 
 			client.send(new HitEvent(player));
-			try {
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
+//			try {
+//				TimeUnit.MILLISECONDS.sleep(100);
+//			} catch (InterruptedException e1) {
+//				e1.printStackTrace();
+//			}
 			Player p = client.getBJG().findPlayer(player.getName());
 			Card c = p.getHand().get(0);
 			blackjackView.setPlayerTable("/"+c.getFace()+c.getSuit()+".png");
@@ -225,6 +216,10 @@ public class BlackjackController {
 		public void actionPerformed(ActionEvent e) {
 			blackjackView.getHitButton().setEnabled(false);
 			blackjackView.getStandButton().setEnabled(false);
+			
+			player.stand();
+			player.setTurn(false);
+			
 		}
 
 	}
@@ -262,13 +257,15 @@ public class BlackjackController {
 			int bet = Integer.parseInt(blackjackView.getBetTxtFieldInput());
 			client.send(new BetEvent(bet, player));
 
-			try {
-				TimeUnit.MILLISECONDS.sleep(100);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
 			blackjackView.setPlayerPoints(""+player.getPoints());
 			blackjackView.setPlayerBet(""+player.getBet());
+			blackjackView.getlblPotValue().setText("" + client.getBJG().getPot());
+			
+			blackjackView.getBtnStart().setVisible(true);
+			blackjackView.getBtnStart().setEnabled(true);
+			blackjackView.getBetButton().setEnabled(false);
+			blackjackView.getAddBetButton().setEnabled(false);
+			blackjackView.getLowerBetButton().setEnabled(false);
 		}
 	}
 	//===============================================================================================	
@@ -322,7 +319,6 @@ public class BlackjackController {
 			String img = "/greed.png";
 			if(e.getActionCommand().equalsIgnoreCase("icon1")) {
 				img = "/man.png";
-
 			}else if(e.getActionCommand().equalsIgnoreCase("icon2")) {
 				img = "/woman.png";
 			}else if(e.getActionCommand().equalsIgnoreCase("icon3")) {
@@ -345,7 +341,8 @@ public class BlackjackController {
 
 		@Override
 		public void windowClosing(WindowEvent e) {
-			System.out.println("Close");
+			client.send(new LeaveEvent(player));
+			client.fin();
 		}
 
 		@Override

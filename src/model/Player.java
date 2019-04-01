@@ -12,6 +12,7 @@ public class Player implements Serializable{
 	private int bet;
 	private int handCount;
 	private boolean turn;
+	private boolean stand;
 	private List<Card> hand;
 	
 	public Player(String name, String imgPath) {
@@ -23,6 +24,7 @@ public class Player implements Serializable{
 		points = 300;
 		bet = 0;
 		turn = false;
+		stand = false;
 		handCount = 0;
 	}
 
@@ -121,11 +123,15 @@ public class Player implements Serializable{
 	}
 	
 	public boolean stand() {
+		stand = true;
 		return true;
 	}
 	
 	public void reset() {
 		hand.removeAll(hand);
+		turn = false;
+		stand = false;
+		bet = 0;
 	}
 
 	public int bet(int bet) {
