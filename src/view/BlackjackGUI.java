@@ -285,13 +285,13 @@ public class BlackjackGUI extends JFrame {
 		lblPotValue.setBounds(390, 180, 76, 27);
 		inGamePanel.add(lblPotValue);
 		
-		lblOpp1Stand = new JLabel("PLAYING...");
+		lblOpp1Stand = new JLabel("");
 		lblOpp1Stand.setForeground(new Color(255, 215, 0));
 		lblOpp1Stand.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblOpp1Stand.setBounds(89, 140, 85, 14);
 		inGamePanel.add(lblOpp1Stand);
 		
-		lblOpp2Stand = new JLabel("PLAYING...");
+		lblOpp2Stand = new JLabel("");
 		lblOpp2Stand.setForeground(new Color(255, 215, 0));
 		lblOpp2Stand.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblOpp2Stand.setBounds(670, 140, 85, 14);

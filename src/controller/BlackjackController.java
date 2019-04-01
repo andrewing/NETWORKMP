@@ -263,11 +263,12 @@ public class BlackjackController {
 					&& client.getBJG().getPlayers().get(2).isStand()*/) {
 				JOptionPane.showConfirmDialog(null, "YOU WIN!",
 		                   "", JOptionPane.OK_OPTION, JOptionPane.PLAIN_MESSAGE);
+				
 			}
 			
 			
-			blackjackView.getLblOpp1Stand().setText("PLAYING...");
-			blackjackView.getLblOpp2Stand().setText("PLAYING...");
+			blackjackView.getLblOpp1Stand().setText("");
+			blackjackView.getLblOpp2Stand().setText("");
 		}
 	}
 

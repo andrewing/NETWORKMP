@@ -16,6 +16,7 @@ public class ResetEvent extends Event{
 	
 	@Override
 	public void execute(BlackJackGame bjg) {
+		bjg.getDealer().reset();
 		for(Player p: players) {
 			Player pbjg = bjg.findPlayer(p.getName());
 			pbjg.reset();
