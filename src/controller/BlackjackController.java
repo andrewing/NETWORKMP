@@ -62,10 +62,14 @@ public class BlackjackController {
 		blackjackView.getStandButton().setVisible(false);
 		blackjackView.getBtnStart().setVisible(false);
 		blackjackView.getlblTotalPot().setVisible(false);
+		blackjackView.getlblPotValue().setVisible(false);
 
+
+		
 		blackjackView.getBetButton().setVisible(false);
 		blackjackView.getAddBetBtn().setVisible(false);
 		blackjackView.getLowerBetBtn().setVisible(false);
+		blackjackView.getBetTxtField().setVisible(false);
 	}
 
 	class ListenerForStartGameBtn implements ActionListener{
@@ -91,6 +95,8 @@ public class BlackjackController {
 						blackjackView.getBetButton().setVisible(true);
 						blackjackView.getAddBetBtn().setVisible(true);
 						blackjackView.getLowerBetBtn().setVisible(true);
+						blackjackView.getBetTxtField().setVisible(true);
+
 						blackjackView.setLblDealerStart();
 						initGame();
 						initOpponents();
@@ -98,7 +104,7 @@ public class BlackjackController {
 					}
 					blackjackView.setBorder(bjg.getPlayers().toArray());
 				}
-			}, 0, 2500);
+			}, 0, 1000);
 
 		}
 
@@ -123,6 +129,7 @@ public class BlackjackController {
 					blackjackView.setOpponent1Bet("BUSTED");
 
 				blackjackView.setOpponent1AvatarIcon(opp1.getImgPath());
+				oppProfile1.setAvatar(opp1.getImgPath());
 				oppProfile1.setLblOppName(opp1.getName());
 				oppProfile1.setPlayerPts(""+opp1.getPoints());
 				oppProfile1.setPlayerWins(""+opp1.getWins());
@@ -137,6 +144,7 @@ public class BlackjackController {
 				else
 					blackjackView.setOpponent2Bet("BUSTED");
 				blackjackView.setOpponent2AvatarIcon(opp2.getImgPath());
+				oppProfile2.setAvatar(opp2.getImgPath());
 				oppProfile2.setLblOppName(opp2.getName());
 				oppProfile2.setPlayerPts(""+opp2.getPoints());
 				oppProfile2.setPlayerWins(""+opp2.getWins());
@@ -169,9 +177,15 @@ public class BlackjackController {
 
 		private void checkWinner() {
 			boolean allStand = true;
-			for(Player p: client.getBJG().getPlayers()) {
+			for(int i = 0; i < client.getBJG().getPlayers().size(); i++) {
+				Player p = client.getBJG().getPlayers().get(i);
 				if(!p.isStand()) {
 					allStand = false;
+				}else {
+					if(i == 1)
+						blackjackView.getLblOpp1Stand().setText("STAND");
+					if(i == 2)
+						blackjackView.getLblOpp2Stand().setText("STAND");
 				}
 			}
 
@@ -232,15 +246,16 @@ public class BlackjackController {
 			blackjackView.getStandButton().setVisible(false);
 			blackjackView.getBtnStart().setVisible(false);
 			blackjackView.getlblTotalPot().setVisible(false);
-
-			blackjackView.getHitButton().setEnabled(true);
-			blackjackView.getStandButton().setEnabled(true);
-			blackjackView.getBtnStart().setEnabled(true);
-			blackjackView.getlblTotalPot().setEnabled(true);
-			blackjackView.getBetButton().setEnabled(true);
+			blackjackView.getlblPotValue().setVisible(false);
 			
+			blackjackView.getBetButton().setEnabled(true);
+			blackjackView.getAddBetButton().setEnabled(true);
+			blackjackView.getLowerBetButton().setEnabled(true);
+			blackjackView.getBetTxtField().setEnabled(true);
+			
+			blackjackView.getLblOpp1Stand().setText("PLAYING...");
+			blackjackView.getLblOpp1Stand().setText("PLAYING...");
 		}
-		
 	}
 
 
@@ -260,23 +275,20 @@ public class BlackjackController {
 			c = p.getHand().get(0);
 			blackjackView.setPlayerTable("/"+c.getFace()+c.getSuit()+".png");
 
-
-			if(p.totalValue() == -1) {
-				blackjackView.getHitButton().setVisible(false);
-				blackjackView.getStandButton().setVisible(false);
-				blackjackView.getBetButton().setVisible(false);
-				blackjackView.getAddBetBtn().setVisible(false);
-				blackjackView.getLowerBetBtn().setVisible(false);
-				blackjackView.getBetLabel().setText("BUSTED");
-				p.stand();
-				client.send(new StandEvent(p,true));
-			}
-
 			blackjackView.getBtnStart().setVisible(false);
 			blackjackView.getHitButton().setVisible(true);
 			blackjackView.getStandButton().setVisible(true);
 			blackjackView.getlblTotalPot().setVisible(true);
 			blackjackView.getlblPotValue().setVisible(true);
+
+			if(p.totalValue() == -1) {
+				blackjackView.getHitButton().setVisible(false);
+				blackjackView.getStandButton().setVisible(false);
+				blackjackView.getBetLabel().setText("BUSTED");
+				p.stand();
+				client.send(new StandEvent(p,true));
+			}
+
 		}
 
 	}
@@ -296,7 +308,6 @@ public class BlackjackController {
 			if(p.totalValue() == -1) {
 				blackjackView.getHitButton().setVisible(false);
 				blackjackView.getStandButton().setVisible(false);
-				blackjackView.getBetButton().setVisible(false);
 				blackjackView.getAddBetBtn().setVisible(false);
 				blackjackView.getLowerBetBtn().setVisible(false);
 				blackjackView.getBetLabel().setText("BUSTED");
@@ -309,8 +320,8 @@ public class BlackjackController {
 	class ListenerForStandBtn implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			blackjackView.getHitButton().setEnabled(false);
-			blackjackView.getStandButton().setEnabled(false);
+			blackjackView.getHitButton().setVisible(false);
+			blackjackView.getStandButton().setVisible(false);
 			player.stand();
 			client.send(new StandEvent(player, true));
 		}
@@ -332,7 +343,6 @@ public class BlackjackController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int val = Integer.parseInt(blackjackView.getBetTxtFieldInput());
-
 			val = val - 10;
 			if(val >= 0) {
 				blackjackView.setBetTxtField(val+ "");
@@ -352,10 +362,14 @@ public class BlackjackController {
 
 			if(player.getBet() != 0) {
 				blackjackView.getBtnStart().setVisible(true);
-				blackjackView.getBtnStart().setEnabled(true);
+				blackjackView.getAddBetButton().setVisible(false);
+				blackjackView.getLowerBetButton().setVisible(false);
+				blackjackView.getBetTxtField().setVisible(false);
+				
 				blackjackView.getBetButton().setEnabled(false);
 				blackjackView.getAddBetButton().setEnabled(false);
 				blackjackView.getLowerBetButton().setEnabled(false);
+				blackjackView.getBetTxtField().setEnabled(false);
 			}
 		}
 	}
@@ -417,10 +431,12 @@ public class BlackjackController {
 			}else if(e.getActionCommand().equalsIgnoreCase("icon4")) {
 				img = "/woman2.png";
 			}
-
+			
+			
 			profile.setAvatar(img);
 			blackjackView.setTableAvatar(img);
 			avatars.dispose();
+			profile.dispose();
 			client.send(new EditProfileEvent(player, img));
 		}	
 	}

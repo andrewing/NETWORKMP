@@ -21,16 +21,14 @@ public class BlackjackGUI extends JFrame {
 	public JPanel mainPanel ,startGamePanel, inGamePanel;
 	public JButton btnStartGame;
 	private JPanel playerTable, opponent1Table, opponent2Table, dealerTable;
-	
 	private JButton hitBtn,standBtn,addBetBtn,lowerBetBtn,betBtn;;
 	private JTextField nameTxtField;
 	private JScrollPane scrollPane, scrollPane1, scrollPane2;
 	private JFormattedTextField betTxtField;
-	
-
 	private JLabel lblPlayerPoints, lblDealer;
 	private JLabel lblPlayerBet, lblOpponent1Bet, lblOpponent2Bet;
 	private JLabel lblTotalPot, lblPotValue;
+	private JLabel lblOpp1Stand, lblOpp2Stand;
 	private JButton playerAvatar, opponent1Avatar, opponent2Avatar;
 	private JButton btnStart;
 
@@ -269,7 +267,6 @@ public class BlackjackGUI extends JFrame {
 		inGamePanel.add(playerAvatar);
 		
 		btnStart = new JButton("Start");
-		btnStart.setEnabled(false);
 		btnStart.setForeground(Color.BLACK);
 		btnStart.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		btnStart.setBackground(new Color(255, 215, 0));
@@ -287,6 +284,18 @@ public class BlackjackGUI extends JFrame {
 		lblPotValue.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		lblPotValue.setBounds(390, 180, 76, 27);
 		inGamePanel.add(lblPotValue);
+		
+		lblOpp1Stand = new JLabel("PLAYING...");
+		lblOpp1Stand.setForeground(new Color(255, 215, 0));
+		lblOpp1Stand.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblOpp1Stand.setBounds(89, 140, 85, 14);
+		inGamePanel.add(lblOpp1Stand);
+		
+		lblOpp2Stand = new JLabel("PLAYING...");
+		lblOpp2Stand.setForeground(new Color(255, 215, 0));
+		lblOpp2Stand.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		lblOpp2Stand.setBounds(670, 140, 85, 14);
+		inGamePanel.add(lblOpp2Stand);
 	}
 
 	public void setTableAvatar(String img) {
@@ -534,5 +543,20 @@ public class BlackjackGUI extends JFrame {
 	public void setPlayerTable(JPanel playerTable) {
 		this.playerTable = playerTable;
 	}
+	
+	public JLabel getLblOpp1Stand() {
+		return lblOpp1Stand;
+	}
 
+	public void setLblOpp1Stand(JLabel lblOpp1Stand) {
+		this.lblOpp1Stand = lblOpp1Stand;
+	}
+
+	public JLabel getLblOpp2Stand() {
+		return lblOpp2Stand;
+	}
+
+	public void setLblOpp2Stand(JLabel lblOpp2Stand) {
+		this.lblOpp2Stand = lblOpp2Stand;
+	}
 }

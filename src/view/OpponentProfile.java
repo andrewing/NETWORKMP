@@ -20,9 +20,9 @@ import java.awt.Color;
 public class OpponentProfile extends JFrame {
 
 	private JPanel contentPane;
-	private JLabel playerPts, playerWins, gamesPlayed, lblOppName;
+	private JLabel playerPts, playerWins, gamesPlayed, lblOppName, lblImage;
 	private ImageIcon man = new ImageIcon(getClass().getResource("/man.png"));
-
+	private ImageIcon avatarImg;
 	public OpponentProfile() {
 		
 		try {
@@ -38,7 +38,7 @@ public class OpponentProfile extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblImage = new JLabel("");
+		lblImage = new JLabel("");
 		lblImage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImage.setBounds(10, 12, 64, 64);
 		contentPane.add(lblImage);
@@ -137,5 +137,10 @@ public class OpponentProfile extends JFrame {
 
 	public void setLblOppName(String name) {
 		lblOppName.setText(name);
+	}
+	
+	public void setAvatar(String img) {
+		avatarImg = new ImageIcon(getClass().getResource(img));
+		lblImage.setIcon(avatarImg);
 	}
 }
