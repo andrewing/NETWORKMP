@@ -18,6 +18,9 @@ import model.Card;
 import model.Player;
 import udpserverclient.TCPClient;
 import view.*;
+
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.*;
 import java.util.Timer;
 import java.util.TimerTask;
