@@ -40,7 +40,9 @@ public class BlackjackGUI extends JFrame {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		}catch (Exception e) {}
+		}
+		catch (Exception e) {}
+
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 826, 452);
