@@ -45,12 +45,15 @@ public class BlackjackController {
 		this.blackjackView.FrameWindowListener(new WindowListenerForFrame());
 		this.blackjackView.StartGameBtnListener(new ListenerForStartGameBtn());
 		this.blackjackView.HitBtnListener(new ListenerForHitBtn());
+		blackjackView.getHitButton().setVisible(false);
 		this.blackjackView.StandBtnListener(new ListenerForStandBtn());
+		blackjackView.getStandButton().setVisible(false);
 		this.blackjackView.AddBetBtnListener(new ListenerForAddBetBtn());
 		this.blackjackView.LowerBetBtnListener(new ListenerForLowerBetBtn());
 		this.blackjackView.BetBtnListener(new ListenerForBetBtn());
 		this.blackjackView.ButtonStartListener(new ListenerForButtonStart());
-
+		blackjackView.getBtnStart().setVisible(false);
+		
 		this.blackjackView.PlayerAvatarListener(new ListenerForPlayerAvatar());
 		this.blackjackView.Opponent1AvatarListener(new ListenerForOpponent1Avatar());
 		this.blackjackView.Opponent2AvatarListener(new ListenerForOpponent2Avatar());
@@ -189,6 +192,8 @@ public class BlackjackController {
 			}
 			
 			blackjackView.getBtnStart().setVisible(false);
+			blackjackView.getHitButton().setVisible(true);
+			blackjackView.getStandButton().setVisible(true);
 		}
 
 	}
@@ -269,6 +274,11 @@ public class BlackjackController {
 			}
 			blackjackView.setPlayerPoints(""+player.getPoints());
 			blackjackView.setPlayerBet(""+player.getBet());
+			blackjackView.getBtnStart().setVisible(true);
+			blackjackView.getBtnStart().setEnabled(true);
+			blackjackView.getBetButton().setEnabled(false);
+			blackjackView.getAddBetButton().setEnabled(false);
+			blackjackView.getLowerBetButton().setEnabled(false);
 		}
 	}
 	//===============================================================================================	

@@ -428,8 +428,16 @@ public class BlackjackGUI extends JFrame {
 		return this.lblPlayerBet;
 	}
 	
+	public JButton getAddBetButton() {
+		return this.addBetBtn;
+	}
+	
 	public JButton getBetButton() {
 		return this.betBtn;
+	}
+	
+	public JButton getLowerBetButton() {
+		return this.lowerBetBtn;
 	}
 
 	public JButton getOpponent1Avatar() {
