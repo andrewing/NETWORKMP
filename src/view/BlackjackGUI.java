@@ -289,6 +289,11 @@ public class BlackjackGUI extends JFrame {
 		for(Object obj: o)
 			tb.add(setBorder(obj));
 		
+		
+		playerTable.setBorder(setBorderBlank());
+		opponent1Table.setBorder(setBorderBlank());
+		opponent2Table.setBorder(setBorderBlank());
+		
 		if(tb.size()>0)
 		playerTable.setBorder(tb.get(0));
 		if(tb.size() > 1)
@@ -304,6 +309,12 @@ public class BlackjackGUI extends JFrame {
 		return new TitledBorder(BorderFactory.createLoweredBevelBorder(), player.getName(), TitledBorder.ABOVE_TOP,
 				TitledBorder.CENTER, new Font("Segoe UI", Font.PLAIN, 13), Color.WHITE);
 	}
+	
+	public TitledBorder setBorderBlank() {
+		return new TitledBorder(BorderFactory.createLoweredBevelBorder(), "", TitledBorder.ABOVE_TOP,
+				TitledBorder.CENTER, new Font("Segoe UI", Font.PLAIN, 13), Color.WHITE);
+	}
+	
 
 	public void setPlayerTable(String drawedCard){
 		JLabel card = new JLabel();

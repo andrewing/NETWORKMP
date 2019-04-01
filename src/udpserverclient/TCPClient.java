@@ -61,7 +61,6 @@ public class TCPClient implements Runnable{
 					numPackets--;
 				}	
 				Collections.sort(buffer);
-
 				byte[] data = PacketUtil.combine(buffer);
 				Object o = BitUtil.toObject(data);
 				Event event = (Event) o;
@@ -69,8 +68,6 @@ public class TCPClient implements Runnable{
 				event.execute(bjg);
 				buffer.clear();
 				System.out.println("*******************************DATA PROCESSED SUCCESSFULLY*******************************");
-
-
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
@@ -79,6 +76,7 @@ public class TCPClient implements Runnable{
 
 	public synchronized void stop() {
 		exit = true;
+		System.out.println("SUCCESSFULLY DISCONNECTED");
 	}
 
 	public synchronized void send(Event event) {
@@ -90,18 +88,18 @@ public class TCPClient implements Runnable{
 			buffer = PacketUtil.toPacket(bytes);
 			int numberOfPackets = buffer.size();
 			outToServer.writeInt(numberOfPackets);
-//			System.out.println("*********************************SENDING TO SERVER*********************************");
+			System.out.println("*********************************SENDING TO SERVER*********************************");
 			for(int i = 0; i < buffer.size(); i++) {
 				Packet p = buffer.get(i);
 				outToServer.writeInt(p.getSyn());
 				outToServer.writeInt(p.getAck());
 				outToServer.write(p.getBytes(), 0, p.getBytes().length);
-//				System.out.println("PACKET SYN # " + p.getSyn());
+				System.out.println("PACKET SYN # " + p.getSyn());
 				outToServer.flush();
 				int ack = inFromServer.readInt();
-//				System.out.print("SERVER ACK # " + ack);
+				System.out.print("SERVER ACK # " + ack);
 				if(ack != p.getSyn() + 1) {
-//					System.out.println(" MISMATCH ERROR! RE-SENDING PACKET SYN # " + p.getSyn());
+					System.out.println(" MISMATCH ERROR! RE-SENDING PACKET SYN # " + p.getSyn());
 					i--;
 					outToServer.writeInt(1);
 				}else {
@@ -109,11 +107,17 @@ public class TCPClient implements Runnable{
 					outToServer.writeInt(0);
 				}
 			}
+	
 			outToServer.flush();
 			buffer.clear();
 			sent = true;
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		try {
+			TimeUnit.MILLISECONDS.sleep(100);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
 		}
 	}
 
@@ -137,6 +141,35 @@ public class TCPClient implements Runnable{
 			}
 		}
 		outToServer.flush();
+	}
+	
+	public synchronized void fin() {
+		boolean connected = false;
+		try {
+			DataOutputStream outToServer = new DataOutputStream(socket.getOutputStream());
+			BufferedReader inFromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			outToServer.writeInt(-1);
+			while(!connected) {
+				int synClient = new Random().nextInt(127);
+				outToServer.write(synClient);
+				System.out.println("SENDING TO SERVER: FIN # " + synClient);
+				int ackServer = inFromServer.read();
+				System.out.print("RECEIVED FROM SERVER: ACK # "+ ackServer);
+				if(ackServer == synClient + 1) {
+					connected = true;
+					int synServer = inFromServer.read();
+					System.out.println(" / FIN # " + synServer);
+					int ackClient = synServer + 1;
+					System.out.println("SENDING TO SERVER: ACK # " + ackClient);
+					outToServer.write(ackClient);
+				}
+			}
+			outToServer.flush();
+			stop();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void start() {

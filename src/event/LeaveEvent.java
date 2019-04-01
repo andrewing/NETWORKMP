@@ -23,7 +23,8 @@ public class LeaveEvent extends Event{
 
 	@Override
 	public void statusPrint() {
-		System.out.println("LEAVE EVENT");
+		System.out.println("PLAYER " + player.getName() + " LEFT THE GAME");
+		
 	}
 
 }
