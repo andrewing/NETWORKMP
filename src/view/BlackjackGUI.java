@@ -314,7 +314,7 @@ public class BlackjackGUI extends JFrame {
 		JLabel dealerIcon = new JLabel();
 		dealerIcon.setHorizontalAlignment(SwingConstants.CENTER);
 		dealerIcon.setIcon(dealer);
-		dealerIcon.setBounds(216, 37, 370, 107);
+		dealerIcon.setBounds(317, 40, 178, 104);
 		inGamePanel.add(dealerIcon);
 	}
 
